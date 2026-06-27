@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-27T07:25:36.631175Z",
+  "reports": [
+    {
+      "skill_id": "fe-agent-dashboard",
+      "run_id": "fe-agent-dashboard-loop-1",
+      "report_json": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-1\\report.json",
+      "report_html": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-1\\report.html",
+      "verdict": "fail",
+      "score": 0.0,
+      "generated_at": "2026-06-27T07:22:54.623249Z",
+      "improvement_hint": "Current version 20260627T072204Z-99bd8d55 can be compared with 20260627T072144Z-db24218d for improvement analysis."
+    },
+    {
+      "skill_id": "fe-agent-dashboard",
+      "run_id": "fe-agent-dashboard-loop-2",
+      "report_json": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\report.json",
+      "report_html": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\report.html",
+      "verdict": "fail",
+      "score": 0.25,
+      "generated_at": "2026-06-27T07:23:34.971595Z",
+      "improvement_hint": "Current version 20260627T072305Z-52446743 can be compared with 20260627T072204Z-99bd8d55 for improvement analysis."
+    },
+    {
+      "skill_id": "fe-agent-dashboard",
+      "run_id": "fe-agent-dashboard-loop-3",
+      "report_json": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-3\\report.json",
+      "report_html": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-3\\report.html",
+      "verdict": "fail",
+      "score": 0.5,
+      "generated_at": "2026-06-27T07:24:52.830000Z",
+      "improvement_hint": "Current version 20260627T072421Z-f855aade can be compared with 20260627T072305Z-52446743 for improvement analysis."
+    },
+    {
+      "skill_id": "fe-agent-dashboard",
+      "run_id": "fe-agent-dashboard-loop-4",
+      "report_json": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-4\\report.json",
+      "report_html": "reports\\fe-agent-dashboard\\fe-agent-dashboard-loop-4\\report.html",
+      "verdict": "fail",
+      "score": 0.0,
+      "generated_at": "2026-06-27T07:25:36.585100Z",
+      "improvement_hint": "Current version 20260627T072500Z-52f88993 can be compared with 20260627T072421Z-f855aade for improvement analysis."
+    }
+  ],
+  "summary": {
+    "total_runs": 4,
+    "pass_count": 0,
+    "fail_count": 4,
+    "pass_rate": 0.0,
+    "avg_score": 0.19
+  }
+}

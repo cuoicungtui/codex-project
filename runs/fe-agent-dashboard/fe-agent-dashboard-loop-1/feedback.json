@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "run_id": "fe-agent-dashboard-loop-1",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T072204Z-99bd8d55",
+  "summary": "Feedback for run fe-agent-dashboard-loop-1 on skill fe-agent-dashboard",
+  "recommendations": [
+    "**Missing required text** – Insert the exact words “mock”, “agent runs”, “sortable”, “trend”, “anomaly”, and “dark mode” somewhere in the visible UI (e.g., KPI card captions, table header description, alert messages, or a footer note).",
+    "**KPI cards** – Add a card or label that explicitly mentions “mock data” so the word *mock* appears in the dashboard.",
+    "**Sortable table** – Although the `<th>` elements have `data-key` attributes, the visible word “sortable” is absent; add a short caption (e.g., “Sortable runs table”) or a tooltip to satisfy the requirement.",
+    "**Trend wording** – Ensure the word “trend” is present in the chart titles or surrounding copy (e.g., “Quality Trend” and “Latency Trend” are already correct, but verify the term appears in the UI text, not only in the canvas drawing code).",
+    "**Anomaly labeling** – The alerts section header says “Anomalies”, but the specific word “anomaly” does not appear elsewhere; include “anomaly” in at least one alert message or description.",
+    "**Dark mode indication** – While CSS defines a dark mode, the UI does not explicitly reference it; add a label or toggle description such as “Dark mode (toggle)” to meet the requirement.",
+    "**Responsive behavior** – Verify that on narrow screens the detail panel collapses and KPI cards stack vertically; test the media query breakpoint (≤768 px) to confirm layout remains usable.",
+    "**Filtering support** – The spec calls for a filterable runs table; currently only sorting is implemented. Add a simple text input (e.g., “Filter runs by agent or status”) that updates the table rows.",
+    "**Loading / state handling** – The spinner, empty‑state, and error‑state elements are hidden after a fixed 1.5 s timeout. Ensure they appear when appropriate (e.g., if the mock data fails to load or is empty) and that the timeout is long enough for rendering.",
+    "**Single‑file integrity** – Confirm the final HTML file contains all CSS, JS, and markup in one document with no external references; minify where possible to keep size reasonable.",
+    "**Validation & comments** – Add a brief comment block at the top of the file describing the mock data sources and how to run the dashboard, and run an HTML validator to ensure no unclosed tags or syntax errors."
+  ],
+  "evidence": [
+    "output_missing_expected_text: Output does not contain required text: mock",
+    "output_missing_expected_text: Output does not contain required text: agent runs",
+    "output_missing_expected_text: Output does not contain required text: sortable",
+    "output_missing_expected_text: Output does not contain required text: trend",
+    "output_missing_expected_text: Output does not contain required text: anomaly",
+    "output_missing_expected_text: Output does not contain required text: dark mode"
+  ],
+  "raw_feedback": "- **Missing required text** – Insert the exact words “mock”, “agent runs”, “sortable”, “trend”, “anomaly”, and “dark mode” somewhere in the visible UI (e.g., KPI card captions, table header description, alert messages, or a footer note).  \n\n- **KPI cards** – Add a card or label that explicitly mentions “mock data” so the word *mock* appears in the dashboard.  \n\n- **Sortable table** – Although the `<th>` elements have `data-key` attributes, the visible word “sortable” is absent; add a short caption (e.g., “Sortable runs table”) or a tooltip to satisfy the requirement.  \n\n- **Trend wording** – Ensure the word “trend” is present in the chart titles or surrounding copy (e.g., “Quality Trend” and “Latency Trend” are already correct, but verify the term appears in the UI text, not only in the canvas drawing code).  \n\n- **Anomaly labeling** – The alerts section header says “Anomalies”, but the specific word “anomaly” does not appear elsewhere; include “anomaly” in at least one alert message or description.  \n\n- **Dark mode indication** – While CSS defines a dark mode, the UI does not explicitly reference it; add a label or toggle description such as “Dark mode (toggle)” to meet the requirement.  \n\n- **Responsive behavior** – Verify that on narrow screens the detail panel collapses and KPI cards stack vertically; test the media query breakpoint (≤768 px) to confirm layout remains usable.  \n\n- **Filtering support** – The spec calls for a filterable runs table; currently only sorting is implemented. Add a simple text input (e.g., “Filter runs by agent or status”) that updates the table rows.  \n\n- **Loading / state handling** – The spinner, empty‑state, and error‑state elements are hidden after a fixed 1.5 s timeout. Ensure they appear when appropriate (e.g., if the mock data fails to load or is empty) and that the timeout is long enough for rendering.  \n\n- **Single‑file integrity** – Confirm the final HTML file contains all CSS, JS, and markup in one document with no external references; minify where possible to keep size reasonable.  \n\n- **Validation & comments** – Add a brief comment block at the top of the file describing the mock data sources and how to run the dashboard, and run an HTML validator to ensure no unclosed tags or syntax errors.",
+  "created_at": "2026-06-27T07:22:54.609146Z"
+}

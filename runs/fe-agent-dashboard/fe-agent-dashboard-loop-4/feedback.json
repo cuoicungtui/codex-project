@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "fe-agent-dashboard-loop-4",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T072500Z-52f88993",
+  "summary": "Feedback for run fe-agent-dashboard-loop-4 on skill fe-agent-dashboard",
+  "recommendations": [
+    "Add a visible phrase **“agent runs”** (e.g., a heading or caption) so the required text appears in the UI.",
+    "Include the word **“sortable”** in a label or description of the runs table (e.g., “Sortable Runs Table”) to satisfy the “sortable” requirement.",
+    "Ensure the **“dark mode”** label is clearly visible (e.g., add a static “Dark mode” text next to the toggle button) so the required text is present.",
+    "Confirm the **“trend”** keyword appears in a chart title or caption (e.g., “Run Duration Trend”) to meet the “trend” requirement.",
+    "Auto‑display the required UI states (loading overlay, empty table message, error alert, partial‑run highlight, selected‑run detail, stale‑data notice) instead of relying only on button clicks.",
+    "Populate the KPI cards with real values after the mock data loads (total runs > 0, success rate, avg duration, anomaly count) so the dashboard reflects the data.",
+    "Remove or condense redundant comments and duplicate CSS variable definitions to keep the single‑file output lean and context‑efficient.",
+    "Verify that the dark‑mode toggle actually switches the CSS variables and that the “dark mode” label remains visible after toggling.",
+    "Add basic accessibility attributes (e.g., `aria-label` on the toggle button and table headers) to improve overall output quality."
+  ],
+  "evidence": [
+    "output_missing_expected_text: Output does not contain required text: agent runs",
+    "output_missing_expected_text: Output does not contain required text: sortable",
+    "output_missing_expected_text: Output does not contain required text: trend",
+    "output_missing_expected_text: Output does not contain required text: dark mode"
+  ],
+  "raw_feedback": "- Add a visible phrase **“agent runs”** (e.g., a heading or caption) so the required text appears in the UI.  \n- Include the word **“sortable”** in a label or description of the runs table (e.g., “Sortable Runs Table”) to satisfy the “sortable” requirement.  \n- Ensure the **“dark mode”** label is clearly visible (e.g., add a static “Dark mode” text next to the toggle button) so the required text is present.  \n- Confirm the **“trend”** keyword appears in a chart title or caption (e.g., “Run Duration Trend”) to meet the “trend” requirement.  \n- Auto‑display the required UI states (loading overlay, empty table message, error alert, partial‑run highlight, selected‑run detail, stale‑data notice) instead of relying only on button clicks.  \n- Populate the KPI cards with real values after the mock data loads (total runs > 0, success rate, avg duration, anomaly count) so the dashboard reflects the data.  \n- Remove or condense redundant comments and duplicate CSS variable definitions to keep the single‑file output lean and context‑efficient.  \n- Verify that the dark‑mode toggle actually switches the CSS variables and that the “dark mode” label remains visible after toggling.  \n- Add basic accessibility attributes (e.g., `aria-label` on the toggle button and table headers) to improve overall output quality.",
+  "created_at": "2026-06-27T07:25:36.574980Z"
+}

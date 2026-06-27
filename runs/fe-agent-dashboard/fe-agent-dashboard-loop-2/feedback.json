@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "fe-agent-dashboard-loop-2",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T072305Z-52446743",
+  "summary": "Feedback for run fe-agent-dashboard-loop-2 on skill fe-agent-dashboard",
+  "recommendations": [
+    "**Add a visible “badge”** – insert a small label (e.g., `<span class=\"badge\">...</span>`) in the KPI cards or table rows to show status (success, failed, etc.).",
+    "**Mark columns as “sortable”** – add a clear label or comment (e.g., “Sortable columns”) and ensure each `<th>` has proper sorting logic/ARIA attributes so the word “sortable” appears in the output.",
+    "**Explicit “dark mode” reference** – include the phrase “dark mode” (e.g., a UI label, a comment, or a visible toggle description) so the required text is present.",
+    "**Load Chart.js** – the code uses `Chart` but no library is loaded; add a `<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>` (or embed the library) to make the trend charts functional.",
+    "**Trim excessive comments and boilerplate** – remove large descriptive comments and redundant HTML sections; keep only essential code to stay within concise output limits.",
+    "**Verify dark‑mode propagation** – ensure the toggle adds/removes the `dark` class on `<body>` and that all CSS variables (background, text, borders) update for every component (tables, cards, panels).",
+    "**Dynamic anomaly generation** – replace static alert items with logic that computes failures, stale data, latency spikes, etc., so alerts reflect the mock data.",
+    "**Optimize CSS** – consolidate dark‑mode rules, remove unused variables, and avoid duplicate style blocks to improve context efficiency.",
+    "**Correct state handling** – ensure the loading spinner is hidden in success cases, and that error/empty states are shown only when the corresponding scenario occurs.",
+    "**Test filter & sort** – confirm the filter input works on the runs table and that clicking column headers toggles sort order (asc/desc) visibly."
+  ],
+  "evidence": [
+    "output_missing_expected_text: Output does not contain required text: badge",
+    "output_missing_expected_text: Output does not contain required text: sortable",
+    "output_missing_expected_text: Output does not contain required text: dark mode"
+  ],
+  "raw_feedback": "- **Add a visible “badge”** – insert a small label (e.g., `<span class=\"badge\">...</span>`) in the KPI cards or table rows to show status (success, failed, etc.).  \n- **Mark columns as “sortable”** – add a clear label or comment (e.g., “Sortable columns”) and ensure each `<th>` has proper sorting logic/ARIA attributes so the word “sortable” appears in the output.  \n- **Explicit “dark mode” reference** – include the phrase “dark mode” (e.g., a UI label, a comment, or a visible toggle description) so the required text is present.  \n- **Load Chart.js** – the code uses `Chart` but no library is loaded; add a `<script src=\"https://cdn.jsdelivr.net/npm/chart.js\"></script>` (or embed the library) to make the trend charts functional.  \n- **Trim excessive comments and boilerplate** – remove large descriptive comments and redundant HTML sections; keep only essential code to stay within concise output limits.  \n- **Verify dark‑mode propagation** – ensure the toggle adds/removes the `dark` class on `<body>` and that all CSS variables (background, text, borders) update for every component (tables, cards, panels).  \n- **Dynamic anomaly generation** – replace static alert items with logic that computes failures, stale data, latency spikes, etc., so alerts reflect the mock data.  \n- **Optimize CSS** – consolidate dark‑mode rules, remove unused variables, and avoid duplicate style blocks to improve context efficiency.  \n- **Correct state handling** – ensure the loading spinner is hidden in success cases, and that error/empty states are shown only when the corresponding scenario occurs.  \n- **Test filter & sort** – confirm the filter input works on the runs table and that clicking column headers toggles sort order (asc/desc) visibly.",
+  "created_at": "2026-06-27T07:23:34.953872Z"
+}

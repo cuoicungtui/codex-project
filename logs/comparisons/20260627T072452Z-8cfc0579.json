@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "comparison_id": "20260627T072452Z-8cfc0579",
+  "skill_id": "fe-agent-dashboard",
+  "subject_a": "fe-agent-dashboard-loop-2",
+  "subject_b": "fe-agent-dashboard-loop-3",
+  "differences": [
+    "skill_version_id: 20260627T072305Z-52446743 -> 20260627T072421Z-f855aade",
+    "score: 0.25 -> 0.5"
+  ],
+  "created_at": "2026-06-27T07:24:52.834734Z"
+}

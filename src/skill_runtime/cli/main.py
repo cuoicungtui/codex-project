@@ -81,6 +81,7 @@ def build_parser() -> argparse.ArgumentParser:
     demo_loop.add_argument("--skill-id", required=True, help="Skill folder name under skills/")
     demo_loop.add_argument("--input", required=True, help="Task input text")
     demo_loop.add_argument("--loops", type=int, default=5, help="Number of loops to run")
+    demo_loop.add_argument("--series-id", default=None, help="Optional stable series id for grouping reruns")
     demo_loop.add_argument("--workspace-root", default=".", help="Workspace root path")
     return parser
 
@@ -316,11 +317,13 @@ def main(argv: list[str] | None = None) -> int:
             input_text=args.input,
             loop_count=args.loops,
             model_config=load_runtime_model_config(),
+            series_id=args.series_id,
         )
         print(
             json.dumps(
                 {
                     "skill_id": result.skill_id,
+                    "series_id": result.series_id,
                     "initial_version_id": result.initial_version_id,
                     "final_version_id": result.final_version_id,
                     "dashboard_html_path": str(result.dashboard_html_path),

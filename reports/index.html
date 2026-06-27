@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Skill Runtime Dashboard</title>
+  <style>
+    body { font-family: Segoe UI, Arial, sans-serif; margin: 0; background: #0b1020; color: #e6ecff; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 56px; }
+    .card { background: #121a31; border: 1px solid rgba(148,163,184,.22); border-radius: 18px; padding: 18px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid rgba(148,163,184,.22); padding: 10px; text-align: left; }
+    th { color: #7dd3fc; }
+    a { color: #7dd3fc; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Skill Runtime Dashboard</h1>
+    <p>Generated at 2026-06-27T07:25:36.631175Z</p>
+    
+            <div class="grid">
+              <div class="card"><h2>Total Runs</h2><div class="metric">4</div></div>
+              <div class="card"><h2>Pass Rate</h2><div class="metric">0.0%</div></div>
+              <div class="card"><h2>Average Score</h2><div class="metric">0.19</div></div>
+              <div class="card"><h2>Pass / Fail</h2><div class="metric">0/4</div></div>
+            </div>
+            
+    <div class="card" style="margin-top: 16px;">
+      <h2>Score Trend</h2>
+      
+        <svg viewBox='0 0 440 230' width='100%' height='230' role='img' aria-label='Run score trend chart'>
+          <defs>
+            <linearGradient id='trend-fill' x1='0' x2='0' y1='0' y2='1'>
+              <stop offset='0%' stop-color='#7dd3fc' stop-opacity='0.35'/>
+              <stop offset='100%' stop-color='#7dd3fc' stop-opacity='0'/>
+            </linearGradient>
+          </defs>
+          <rect x='0' y='0' width='440' height='230' rx='16' fill='#0f172a' opacity='0.72'/>
+          <line x1='40' y1='40' x2='400' y2='40' stroke='rgba(148,163,184,.18)' />
+          <line x1='40' y1='90' x2='400' y2='90' stroke='rgba(148,163,184,.18)' />
+          <line x1='40' y1='140' x2='400' y2='140' stroke='rgba(148,163,184,.18)' />
+          <polyline points='40,180 160,145 280,110 400,180' fill='none' stroke='#7dd3fc' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/>
+          <circle cx='40' cy='180' r='6' fill='#7dd3fc'><title>fe-agent-dashboard-loop-1 score=0.0</title></circle><circle cx='160' cy='145' r='6' fill='#7dd3fc'><title>fe-agent-dashboard-loop-2 score=0.25</title></circle><circle cx='280' cy='110' r='6' fill='#7dd3fc'><title>fe-agent-dashboard-loop-3 score=0.5</title></circle><circle cx='400' cy='180' r='6' fill='#7dd3fc'><title>fe-agent-dashboard-loop-4 score=0.0</title></circle>
+          <text x='40' y='205' fill='#94a3b8' font-size='12' text-anchor='middle'>fe-agent-das</text><text x='160' y='205' fill='#94a3b8' font-size='12' text-anchor='middle'>fe-agent-das</text><text x='280' y='205' fill='#94a3b8' font-size='12' text-anchor='middle'>fe-agent-das</text><text x='400' y='205' fill='#94a3b8' font-size='12' text-anchor='middle'>fe-agent-das</text>
+        </svg>
+        
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr><th>Skill</th><th>Run</th><th>Verdict</th><th>Score</th><th>Report</th></tr>
+        </thead>
+        <tbody><tr><td>fe-agent-dashboard</td><td>fe-agent-dashboard-loop-1</td><td>fail</td><td>0.0</td><td><a href='reports\fe-agent-dashboard\fe-agent-dashboard-loop-1\report.html'>Open</a></td></tr><tr><td>fe-agent-dashboard</td><td>fe-agent-dashboard-loop-2</td><td>fail</td><td>0.25</td><td><a href='reports\fe-agent-dashboard\fe-agent-dashboard-loop-2\report.html'>Open</a></td></tr><tr><td>fe-agent-dashboard</td><td>fe-agent-dashboard-loop-3</td><td>fail</td><td>0.5</td><td><a href='reports\fe-agent-dashboard\fe-agent-dashboard-loop-3\report.html'>Open</a></td></tr><tr><td>fe-agent-dashboard</td><td>fe-agent-dashboard-loop-4</td><td>fail</td><td>0.0</td><td><a href='reports\fe-agent-dashboard\fe-agent-dashboard-loop-4\report.html'>Open</a></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

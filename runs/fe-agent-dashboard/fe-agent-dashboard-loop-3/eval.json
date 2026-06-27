@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "fe-agent-dashboard-loop-3",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T072421Z-f855aade",
+  "verdict": "fail",
+  "score": 0.5,
+  "metrics": {
+    "trace_event_count": 5,
+    "output_char_count": 11103,
+    "has_output": true,
+    "rubric_applied": true
+  },
+  "issues": [
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: badge",
+      "evidence": [
+        "output.md missing 'badge'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: dark mode",
+      "evidence": [
+        "output.md missing 'dark mode'"
+      ]
+    }
+  ],
+  "created_at": "2026-06-27T07:24:47.139183Z"
+}

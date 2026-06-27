@@ -9,7 +9,7 @@ from skill_runtime.application.export_report import ReportExporter
 from skill_runtime.application.generate_feedback import FeedbackGenerator
 from skill_runtime.application.revise_skill import SkillReviser
 from skill_runtime.application.run_skill import RunExecutor
-from skill_runtime.application.version_skill import SkillVersioner
+from skill_runtime.application.version_skill import SkillVersioner, generate_version_id
 from skill_runtime.domain.runs import RuntimeModelConfig
 from skill_runtime.domain.workspace import WorkspaceContract
 
@@ -27,6 +27,7 @@ class DemoLoopRun:
 @dataclass(frozen=True, slots=True)
 class DemoLoopResult:
     skill_id: str
+    series_id: str
     initial_version_id: str
     final_version_id: str
     runs: tuple[DemoLoopRun, ...]
@@ -55,8 +56,10 @@ class DemoLoopRunner:
         input_text: str,
         loop_count: int,
         model_config: RuntimeModelConfig,
+        series_id: str | None = None,
         max_tokens_cap: int = 12000,
     ) -> DemoLoopResult:
+        effective_series_id = series_id or generate_version_id()
         effective_config = RuntimeModelConfig(
             provider=model_config.provider,
             model=model_config.model,
@@ -72,7 +75,7 @@ class DemoLoopRunner:
         previous_run_id: str | None = None
 
         for loop_index in range(1, loop_count + 1):
-            run_id = f"{skill_id}-loop-{loop_index}"
+            run_id = f"{skill_id}-{effective_series_id}-loop-{loop_index}"
             run_result = self._executor.execute(
                 skill_id=skill_id,
                 version_id=current_version_id,
@@ -108,6 +111,7 @@ class DemoLoopRunner:
         final_skill_md_path = self._workspace.skills_dir / skill_id / "versions" / current_version_id / skill_id / "SKILL.md"
         return DemoLoopResult(
             skill_id=skill_id,
+            series_id=effective_series_id,
             initial_version_id=initial_version.version_id,
             final_version_id=current_version_id,
             runs=tuple(loop_runs),
