@@ -80,8 +80,11 @@ def build_parser() -> argparse.ArgumentParser:
     demo_loop = sub.add_parser("demo-loop", help="Run a multi-loop skill improvement demo")
     demo_loop.add_argument("--skill-id", required=True, help="Skill folder name under skills/")
     demo_loop.add_argument("--input", required=True, help="Task input text")
-    demo_loop.add_argument("--loops", type=int, default=5, help="Number of loops to run")
+    demo_loop.add_argument("--rounds", type=int, default=6, help="Number of revision rounds to run")
+    demo_loop.add_argument("--loops", type=int, default=None, help="Deprecated alias for --rounds")
+    demo_loop.add_argument("--scenarios-per-round", type=int, default=4, help="Number of prompts per round")
     demo_loop.add_argument("--series-id", default=None, help="Optional stable series id for grouping reruns")
+    demo_loop.add_argument("--prompt-policy", choices=["auto", "keep", "rotate"], default="auto", help="Whether to keep or rotate prompts between rounds")
     demo_loop.add_argument("--workspace-root", default=".", help="Workspace root path")
     return parser
 
@@ -315,9 +318,11 @@ def main(argv: list[str] | None = None) -> int:
         result = DemoLoopRunner(Path(args.workspace_root)).run(
             skill_id=args.skill_id,
             input_text=args.input,
-            loop_count=args.loops,
+            loop_count=args.rounds if args.rounds is not None else args.loops,
             model_config=load_runtime_model_config(),
             series_id=args.series_id,
+            scenarios_per_round=args.scenarios_per_round,
+            prompt_policy=args.prompt_policy,
         )
         print(
             json.dumps(
@@ -328,16 +333,32 @@ def main(argv: list[str] | None = None) -> int:
                     "final_version_id": result.final_version_id,
                     "dashboard_html_path": str(result.dashboard_html_path),
                     "final_skill_md_path": str(result.final_skill_md_path),
-                    "runs": [
+                    "rounds": [
                         {
-                            "loop_index": item.loop_index,
+                            "round_index": item.round_index,
+                            "version_id": item.version_id,
+                            "round_run_id": item.round_run_id,
+                            "prompt_mode": item.prompt_mode,
+                            "decision": item.decision,
+                            "average_score": item.average_score,
+                            "best_score": item.best_score,
+                            "worst_score": item.worst_score,
+                            "scenario_count": item.scenario_count,
+                        }
+                        for item in result.rounds
+                    ],
+                    "scenarios": [
+                        {
+                            "round_index": item.round_index,
+                            "scenario_index": item.scenario_index,
+                            "label": item.label,
                             "version_id": item.version_id,
                             "run_id": item.run_id,
                             "run_status": item.run_status,
                             "verdict": item.verdict,
                             "score": item.score,
                         }
-                        for item in result.runs
+                        for item in result.scenarios
                     ],
                 },
                 indent=2,

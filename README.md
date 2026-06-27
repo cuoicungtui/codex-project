@@ -118,13 +118,15 @@ Real run example for the FE dashboard skill:
 ```powershell
 skill-runtime demo-loop `
   --skill-id fe-agent-dashboard `
-  --loops 4 `
+  --rounds 6 `
+  --scenarios-per-round 4 `
   --series-id fe-dashboard-demo `
+  --prompt-policy auto `
   --input "Hãy xây một dashboard giám sát vận hành AI agents bằng mock data, dùng single-file HTML/CSS/JS. Ưu tiên visual hierarchy rõ, KPI nổi bật, trend charts, bảng runs sort/filter, detail panel bên phải, anomaly/alerts, dark mode, responsive mobile, và các state loading/empty/error/partial/selected/stale." `
   --workspace-root .
 ```
 
-Reruns are versioned. Use `--series-id` to group repeated runs under one label. If you omit it, the tool generates a new series id automatically so previous runs stay intact.
+Each round runs 4 scenarios, scores them all, then aggregates feedback before revising the skill. Use `--prompt-policy auto` to let the runner decide whether the next round keeps the same scenario pack or rotates it. If you omit `--series-id`, the tool generates a new series id automatically so previous runs stay intact.
 
 ## Evaluation
 The system evaluates:
