@@ -33,8 +33,8 @@ class RunResult:
     trace_path: Path
     artifacts_dir: Path
     output_path: Path
+    output_html_path: Path | None
     status: str
     started_at: str
     completed_at: str
     error_message: str | None = None
-

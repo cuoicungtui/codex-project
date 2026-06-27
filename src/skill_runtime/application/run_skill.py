@@ -62,6 +62,7 @@ class RunExecutor:
         run_root = self._workspace.runs_dir / skill_id / effective_run_id
         artifacts_dir = run_root / "artifacts"
         output_path = artifacts_dir / "output.md"
+        output_html_path = artifacts_dir / "output.html"
         run_json_path = run_root / "run.json"
         trace_path = run_root / "trace.jsonl"
 
@@ -85,6 +86,7 @@ class RunExecutor:
             "artifacts_dir": str(artifacts_dir),
             "trace_path": str(trace_path),
             "output_path": str(output_path),
+            "output_html_path": None,
             "input": {"text": input_text},
             "model": config.public_dict(),
         }
@@ -135,6 +137,9 @@ class RunExecutor:
                 config=config,
             )
             output_path.write_text(output_text + "\n", encoding="utf-8")
+            if output_text.lstrip().startswith("<") or "<html" in output_text.lower():
+                output_html_path.write_text(output_text + "\n", encoding="utf-8")
+                run_record["output_html_path"] = str(output_html_path)
             trace.append(
                 "model_response",
                 {
@@ -167,6 +172,7 @@ class RunExecutor:
             trace_path=trace_path,
             artifacts_dir=artifacts_dir,
             output_path=output_path,
+            output_html_path=output_html_path if output_html_path.exists() else None,
             status=status,
             started_at=started_at,
             completed_at=completed_at,

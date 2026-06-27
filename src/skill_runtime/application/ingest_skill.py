@@ -32,6 +32,7 @@ class SkillIngestor:
         for relative in (
             "SKILL.md",
             "metadata.json",
+            "rubric.json",
             "examples",
             "tests",
             "assets",
@@ -57,4 +58,3 @@ class SkillIngestor:
 def ingest_skill_from_env(skill_id: str, env: dict[str, str] | None = None) -> SkillIngestionResult:
     settings = load_workspace_settings(env)
     return SkillIngestor(settings.workspace_root).ingest(skill_id)
-

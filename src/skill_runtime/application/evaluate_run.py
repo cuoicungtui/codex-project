@@ -38,13 +38,22 @@ class RunEvaluator:
         run_record = _load_json(run_json_path)
         trace = _load_trace(trace_path)
         output_text = output_path.read_text(encoding="utf-8") if output_path.exists() else ""
+        rubric = self._load_rubric(
+            skill_id=skill_id,
+            version_id=str(run_record.get("skill_version_id", "")),
+        )
 
         issues: list[EvaluationIssue] = []
         metrics: dict[str, object] = {
             "trace_event_count": len(trace),
             "output_char_count": len(output_text.strip()),
             "has_output": bool(output_text.strip()),
+            "rubric_applied": bool(rubric),
         }
+
+        if rubric:
+            required_output_contains = tuple(required_output_contains) + tuple(rubric.get("required_output_contains", []))
+            required_trace_events = tuple(required_trace_events) + tuple(rubric.get("required_trace_events", []))
 
         for event_name in required_trace_events:
             if not any(event.get("event") == event_name for event in trace):
@@ -127,3 +136,12 @@ class RunEvaluator:
             eval_json_path=eval_json_path,
         )
 
+    def _load_rubric(self, *, skill_id: str, version_id: str) -> dict[str, object]:
+        if not version_id:
+            return {}
+        rubric_path = (
+            self._workspace.skills_dir / skill_id / "versions" / version_id / skill_id / "rubric.json"
+        )
+        if not rubric_path.is_file():
+            return {}
+        return json.loads(rubric_path.read_text(encoding="utf-8"))

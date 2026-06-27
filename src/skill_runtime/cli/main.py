@@ -4,8 +4,11 @@ import argparse
 import json
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 from skill_runtime.application.bootstrap_workspace import WorkspaceBootstrapper
 from skill_runtime.application.compare_runs import RunComparator
+from skill_runtime.application.demo_loop import DemoLoopRunner
 from skill_runtime.application.export_report import ReportExporter
 from skill_runtime.application.evaluate_run import RunEvaluator
 from skill_runtime.application.generate_feedback import FeedbackGenerator
@@ -73,10 +76,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     build_dashboard = sub.add_parser("build-dashboard", help="Build reports/index.html for all runs")
     build_dashboard.add_argument("--workspace-root", default=".", help="Workspace root path")
+
+    demo_loop = sub.add_parser("demo-loop", help="Run a multi-loop skill improvement demo")
+    demo_loop.add_argument("--skill-id", required=True, help="Skill folder name under skills/")
+    demo_loop.add_argument("--input", required=True, help="Task input text")
+    demo_loop.add_argument("--loops", type=int, default=5, help="Number of loops to run")
+    demo_loop.add_argument("--workspace-root", default=".", help="Workspace root path")
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv(override=True)
     parser = build_parser()
     args = parser.parse_args(argv)
 
@@ -291,6 +301,41 @@ def main(argv: list[str] | None = None) -> int:
                     "dashboard_root": str(result.dashboard_root),
                     "index_json_path": str(result.index_json_path),
                     "index_html_path": str(result.index_html_path),
+                },
+                indent=2,
+                ensure_ascii=False,
+            )
+        )
+        return 0
+
+    if args.command == "demo-loop":
+        from skill_runtime.application.runtime_config import load_runtime_model_config
+
+        result = DemoLoopRunner(Path(args.workspace_root)).run(
+            skill_id=args.skill_id,
+            input_text=args.input,
+            loop_count=args.loops,
+            model_config=load_runtime_model_config(),
+        )
+        print(
+            json.dumps(
+                {
+                    "skill_id": result.skill_id,
+                    "initial_version_id": result.initial_version_id,
+                    "final_version_id": result.final_version_id,
+                    "dashboard_html_path": str(result.dashboard_html_path),
+                    "final_skill_md_path": str(result.final_skill_md_path),
+                    "runs": [
+                        {
+                            "loop_index": item.loop_index,
+                            "version_id": item.version_id,
+                            "run_id": item.run_id,
+                            "run_status": item.run_status,
+                            "verdict": item.verdict,
+                            "score": item.score,
+                        }
+                        for item in result.runs
+                    ],
                 },
                 indent=2,
                 ensure_ascii=False,

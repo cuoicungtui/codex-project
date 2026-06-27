@@ -54,6 +54,7 @@ class ReportExporter:
         feedback_record = _load_json(run_root / "feedback.json") if (run_root / "feedback.json").exists() else {}
         trace = _load_trace(run_root / "trace.jsonl")
         output_path = run_root / "artifacts" / "output.md"
+        output_html_path = run_root / "artifacts" / "output.html"
         output_text = output_path.read_text(encoding="utf-8") if output_path.exists() else ""
 
         comparison_text = self._best_effort_improvement_hint(skill_id=skill_id, run_id=run_id, current_eval=eval_record)
@@ -80,6 +81,7 @@ class ReportExporter:
                 "eval_json": str(run_root / "eval.json"),
                 "feedback_json": str(run_root / "feedback.json"),
                 "output_md": str(output_path),
+                "output_html": str(output_html_path) if output_html_path.exists() else None,
             },
             "trace": trace,
         }
@@ -301,6 +303,7 @@ class ReportExporter:
           <li><a href="{esc(report['artifacts']['eval_json'])}">eval.json</a></li>
           <li><a href="{esc(report['artifacts']['feedback_json'])}">feedback.json</a></li>
           <li><a href="{esc(report['artifacts']['output_md'])}">output.md</a></li>
+          {"<li><a href=\"" + esc(report['artifacts']['output_html']) + "\">output.html</a></li>" if report['artifacts'].get('output_html') else ""}
         </ul>
       </div>
     </div>
