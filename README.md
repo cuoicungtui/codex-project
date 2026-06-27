@@ -119,11 +119,12 @@ Real run example for the FE dashboard skill:
 skill-runtime demo-loop `
   --skill-id fe-agent-dashboard `
   --loops 4 `
-  --input "Hãy xây một dashboard giám sát vận hành AI agents bằng mock data, dùng single-file HTML/CSS/JS. Dashboard phải giúp người dùng nắm tình trạng hệ thống trong 5–10 giây, nên cần visual hierarchy rõ, KPI quan trọng nổi bật, và luồng đọc tự nhiên từ overview -> bất thường -> chi tiết run. Yêu cầu giao diện gồm: khu vực KPI overview, trend charts cho chất lượng/vận hành, bảng runs có thể sort/filter, panel chi tiết bên phải cho run đang chọn, khu vực anomaly / alerts ưu tiên các vấn đề cần chú ý, dark mode, responsive tốt trên mobile. Dữ liệu mock phải đủ đa dạng để thể hiện: happy path, failed runs, partial runs, stale data, selected state, loading / empty / error states. Ưu tiên: khả năng scan nhanh, phân cấp thông tin rõ, trạng thái UI đầy đủ, cảm giác giống dashboard production hơn là demo cards rời rạc. Không cần backend thật; toàn bộ data là mock nhưng nên đủ thực tế để nhìn ra hành vi hệ thống." `
+  --series-id fe-dashboard-demo `
+  --input "Hãy xây một dashboard giám sát vận hành AI agents bằng mock data, dùng single-file HTML/CSS/JS. Ưu tiên visual hierarchy rõ, KPI nổi bật, trend charts, bảng runs sort/filter, detail panel bên phải, anomaly/alerts, dark mode, responsive mobile, và các state loading/empty/error/partial/selected/stale." `
   --workspace-root .
 ```
 
-Reruns are versioned. If you run the same demo again, the command generates a new `series_id` by default, so previous runs stay intact. If you want to group reruns under a stable label, pass `--series-id <your-label>`.
+Reruns are versioned. Use `--series-id` to group repeated runs under one label. If you omit it, the tool generates a new series id automatically so previous runs stay intact.
 
 ## Evaluation
 The system evaluates:

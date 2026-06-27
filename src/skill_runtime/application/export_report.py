@@ -63,6 +63,7 @@ class ReportExporter:
             "report_id": report_id,
             "skill_id": skill_id,
             "run_id": run_id,
+            "series_id": run_record.get("series_id") or self._infer_series_id(skill_id=skill_id, run_id=run_id),
             "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "run": run_record,
             "evaluation": eval_record,
@@ -107,6 +108,7 @@ class ReportExporter:
             entries.append(
                 {
                     "skill_id": report.get("skill_id"),
+                    "series_id": report.get("series_id"),
                     "run_id": report.get("run_id"),
                     "report_json": str(report_json_path),
                     "report_html": str(report_json_path.with_name("report.html")),
@@ -265,6 +267,7 @@ class ReportExporter:
       <div class="card">
         <h1>Skill Runtime Report</h1>
         <p class="muted">Skill: <code>{esc(report.get('skill_id'))}</code></p>
+        <p class="muted">Series: <code>{esc(report.get('series_id') or '')}</code></p>
         <p class="muted">Run: <code>{esc(report.get('run_id'))}</code></p>
         <p class="muted">Generated: {esc(report.get('generated_at'))}</p>
       </div>
@@ -338,7 +341,7 @@ class ReportExporter:
             """
         if isinstance(reports, list):
             rows = "".join(
-                f"<tr><td>{html.escape(str(item.get('skill_id')))}</td><td>{html.escape(str(item.get('run_id')))}</td><td>{html.escape(str(item.get('verdict')))}</td><td>{html.escape(str(item.get('score')))}</td><td><a href='{html.escape(str(item.get('report_html')))}'>Open</a></td></tr>"
+                f"<tr><td>{html.escape(str(item.get('skill_id')))}</td><td>{html.escape(str(item.get('series_id') or ''))}</td><td>{html.escape(str(item.get('run_id')))}</td><td>{html.escape(str(item.get('verdict')))}</td><td>{html.escape(str(item.get('score')))}</td><td><a href='{html.escape(str(item.get('report_html')))}'>Open</a></td></tr>"
                 for item in reports
                 if isinstance(item, dict)
             )
@@ -370,7 +373,7 @@ class ReportExporter:
     <div class="card">
       <table>
         <thead>
-          <tr><th>Skill</th><th>Run</th><th>Verdict</th><th>Score</th><th>Report</th></tr>
+          <tr><th>Skill</th><th>Series</th><th>Run</th><th>Verdict</th><th>Score</th><th>Report</th></tr>
         </thead>
         <tbody>{rows}</tbody>
       </table>
@@ -417,3 +420,12 @@ class ReportExporter:
           {labels}
         </svg>
         """
+
+    def _infer_series_id(self, *, skill_id: str, run_id: str) -> str | None:
+        prefix = f"{skill_id}-"
+        suffix = "-loop-"
+        if not run_id.startswith(prefix) or suffix not in run_id:
+            return None
+        base = run_id.removeprefix(prefix)
+        series_part, _, _ = base.rpartition(suffix)
+        return series_part or None
