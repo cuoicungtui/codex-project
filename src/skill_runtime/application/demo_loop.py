@@ -136,6 +136,7 @@ class DemoLoopRunner:
 
             scenario_results = self._run_scenarios(
                 skill_id=skill_id,
+                series_id=effective_series_id,
                 round_index=round_index,
                 version_id=current_version_id,
                 prompts=scenario_pack[:scenarios_per_round],
@@ -184,6 +185,7 @@ class DemoLoopRunner:
         self,
         *,
         skill_id: str,
+        series_id: str,
         round_index: int,
         version_id: str,
         prompts: tuple[ScenarioPrompt, ...],
@@ -191,7 +193,7 @@ class DemoLoopRunner:
     ) -> list[ScenarioRun]:
         scenario_results: list[ScenarioRun] = []
         for prompt in prompts:
-            run_id = f"{skill_id}-round-{round_index}-scenario-{prompt.scenario_index}"
+            run_id = f"{skill_id}-{series_id}-round-{round_index}-scenario-{prompt.scenario_index}"
             run_result = self._executor.execute(
                 skill_id=skill_id,
                 version_id=version_id,

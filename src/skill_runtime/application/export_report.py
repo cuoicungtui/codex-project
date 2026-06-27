@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import json
+import os
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -35,6 +36,24 @@ def _safe_float(value: object, default: float = 0.0) -> float:
         return float(value)
     except (TypeError, ValueError):
         return default
+
+
+def _summarize_entries(entries: list[dict[str, object]]) -> dict[str, object]:
+    scores = [_safe_float(item.get("score")) for item in entries]
+    verdict_counts = Counter(str(item.get("verdict") or "unknown") for item in entries)
+    pass_count = verdict_counts.get("pass", 0)
+    total_runs = len(entries)
+    return {
+        "total_runs": total_runs,
+        "pass_count": pass_count,
+        "fail_count": verdict_counts.get("fail", 0),
+        "pass_rate": round((pass_count / total_runs) * 100, 1) if total_runs else 0.0,
+        "avg_score": round(sum(scores) / total_runs, 2) if total_runs else 0.0,
+    }
+
+
+def _relative_link(path: Path, *, from_dir: Path) -> str:
+    return Path(os.path.relpath(path, start=from_dir)).as_posix()
 
 
 class ReportExporter:
@@ -77,12 +96,12 @@ class ReportExporter:
                 "improvement_hint": comparison_text,
             },
             "artifacts": {
-                "run_json": str(run_root / "run.json"),
-                "trace_jsonl": str(run_root / "trace.jsonl"),
-                "eval_json": str(run_root / "eval.json"),
-                "feedback_json": str(run_root / "feedback.json"),
-                "output_md": str(output_path),
-                "output_html": str(output_html_path) if output_html_path.exists() else None,
+                "run_json": _relative_link(run_root / "run.json", from_dir=report_root),
+                "trace_jsonl": _relative_link(run_root / "trace.jsonl", from_dir=report_root),
+                "eval_json": _relative_link(run_root / "eval.json", from_dir=report_root),
+                "feedback_json": _relative_link(run_root / "feedback.json", from_dir=report_root),
+                "output_md": _relative_link(output_path, from_dir=report_root),
+                "output_html": _relative_link(output_html_path, from_dir=report_root) if output_html_path.exists() else None,
             },
             "trace": trace,
         }
@@ -105,13 +124,30 @@ class ReportExporter:
         entries: list[dict[str, object]] = []
         for report_json_path in sorted(dashboard_root.glob("*/*/report.json")):
             report = _load_json(report_json_path)
+            run_record = report.get("run", {}) if isinstance(report.get("run"), dict) else {}
+            skill_id = str(report.get("skill_id") or "")
+            run_id = str(report.get("run_id") or "")
+            series_id = report.get("series_id") or self._infer_series_id(skill_id=skill_id, run_id=run_id)
+            version_id = str(run_record.get("skill_version_id") or "")
+            output_html_link = report.get("artifacts", {}).get("output_html") if isinstance(report.get("artifacts"), dict) else None
+            if output_html_link:
+                output_html_path = (report_json_path.parent / str(output_html_link)).resolve()
+                output_html_link = _relative_link(output_html_path, from_dir=dashboard_root)
+            skill_md_link = None
+            if skill_id and version_id:
+                skill_md_path = self._workspace.skills_dir / skill_id / "versions" / version_id / skill_id / "SKILL.md"
+                if skill_md_path.exists():
+                    skill_md_link = _relative_link(skill_md_path, from_dir=dashboard_root)
             entries.append(
                 {
-                    "skill_id": report.get("skill_id"),
-                    "series_id": report.get("series_id"),
-                    "run_id": report.get("run_id"),
-                    "report_json": str(report_json_path),
-                    "report_html": str(report_json_path.with_name("report.html")),
+                    "skill_id": skill_id,
+                    "series_id": series_id,
+                    "run_id": run_id,
+                    "skill_version_id": version_id,
+                    "report_json": _relative_link(report_json_path, from_dir=dashboard_root),
+                    "report_html": _relative_link(report_json_path.with_name("report.html"), from_dir=dashboard_root),
+                    "output_html": output_html_link,
+                    "skill_md": skill_md_link,
                     "verdict": report.get("evaluation", {}).get("verdict") if isinstance(report.get("evaluation"), dict) else None,
                     "score": report.get("evaluation", {}).get("score") if isinstance(report.get("evaluation"), dict) else None,
                     "generated_at": report.get("generated_at"),
@@ -119,23 +155,28 @@ class ReportExporter:
                 }
             )
         entries.sort(key=lambda item: str(item.get("generated_at") or ""))
-        scores = [_safe_float(item.get("score")) for item in entries]
-        verdict_counts = Counter(str(item.get("verdict") or "unknown") for item in entries)
-        pass_count = verdict_counts.get("pass", 0)
-        total_runs = len(entries)
-        avg_score = round(sum(scores) / total_runs, 2) if total_runs else 0.0
-        pass_rate = round((pass_count / total_runs) * 100, 1) if total_runs else 0.0
+        series_entries = [item for item in entries if item.get("series_id")]
+        active_series_id = None
+        if series_entries:
+            active_series_id = str(
+                max(series_entries, key=lambda item: str(item.get("generated_at") or "")).get("series_id") or ""
+            )
+        latest_series_entries = (
+            [item for item in entries if item.get("series_id") == active_series_id]
+            if active_series_id
+            else entries
+        )
+        summary_all = _summarize_entries(entries)
+        summary_latest_series = _summarize_entries(latest_series_entries)
         index_record = {
             "schema_version": 1,
             "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "active_scope": "latest_series" if active_series_id else "all_history",
+            "active_series_id": active_series_id,
             "reports": entries,
-            "summary": {
-                "total_runs": total_runs,
-                "pass_count": pass_count,
-                "fail_count": verdict_counts.get("fail", 0),
-                "pass_rate": pass_rate,
-                "avg_score": avg_score,
-            },
+            "summary": summary_latest_series,
+            "summary_latest_series": summary_latest_series,
+            "summary_all": summary_all,
         }
         index_json_path.write_text(json.dumps(index_record, indent=2, ensure_ascii=False), encoding="utf-8")
         index_html_path.write_text(self._render_dashboard_html(index_record), encoding="utf-8")
@@ -326,25 +367,8 @@ class ReportExporter:
 
     def _render_dashboard_html(self, index_record: dict[str, object]) -> str:
         reports = index_record.get("reports", [])
-        summary = index_record.get("summary", {})
-        rows = ""
+        data_json = json.dumps(index_record, ensure_ascii=False).replace("</", "<\\/")
         chart_svg = self._render_trend_svg(reports if isinstance(reports, list) else [])
-        summary_cards = ""
-        if isinstance(summary, dict):
-            summary_cards = f"""
-            <div class="grid">
-              <div class="card"><h2>Total Runs</h2><div class="metric">{html.escape(str(summary.get('total_runs', 0)))}</div></div>
-              <div class="card"><h2>Pass Rate</h2><div class="metric">{html.escape(str(summary.get('pass_rate', 0.0)))}%</div></div>
-              <div class="card"><h2>Average Score</h2><div class="metric">{html.escape(str(summary.get('avg_score', 0.0)))}</div></div>
-              <div class="card"><h2>Pass / Fail</h2><div class="metric">{html.escape(str(summary.get('pass_count', 0)))}/{html.escape(str(summary.get('fail_count', 0)))}</div></div>
-            </div>
-            """
-        if isinstance(reports, list):
-            rows = "".join(
-                f"<tr><td>{html.escape(str(item.get('skill_id')))}</td><td>{html.escape(str(item.get('series_id') or ''))}</td><td>{html.escape(str(item.get('run_id')))}</td><td>{html.escape(str(item.get('verdict')))}</td><td>{html.escape(str(item.get('score')))}</td><td><a href='{html.escape(str(item.get('report_html')))}'>Open</a></td></tr>"
-                for item in reports
-                if isinstance(item, dict)
-            )
         return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -355,17 +379,35 @@ class ReportExporter:
     body {{ font-family: Segoe UI, Arial, sans-serif; margin: 0; background: #0b1020; color: #e6ecff; }}
     .wrap {{ max-width: 1200px; margin: 0 auto; padding: 32px 20px 56px; }}
     .card {{ background: #121a31; border: 1px solid rgba(148,163,184,.22); border-radius: 18px; padding: 18px; }}
+    .grid {{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 18px 0; }}
+    .metric {{ font-size: 36px; font-weight: 800; letter-spacing: -0.04em; }}
+    .muted {{ color: #94a3b8; }}
+    .scope-bar {{ display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 18px 0; }}
+    .scope-bar button {{ background: #0f172a; border: 1px solid rgba(125,211,252,.35); color: #dbeafe; border-radius: 999px; padding: 9px 14px; cursor: pointer; }}
+    .scope-bar button[aria-pressed="true"] {{ background: #7dd3fc; color: #06111f; border-color: #7dd3fc; font-weight: 700; }}
     table {{ width: 100%; border-collapse: collapse; }}
     th, td {{ border-bottom: 1px solid rgba(148,163,184,.22); padding: 10px; text-align: left; }}
     th {{ color: #7dd3fc; }}
     a {{ color: #7dd3fc; }}
+    @media (max-width: 860px) {{ .grid {{ grid-template-columns: 1fr 1fr; }} table {{ display: block; overflow-x: auto; }} }}
+    @media (max-width: 560px) {{ .grid {{ grid-template-columns: 1fr; }} }}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Skill Runtime Dashboard</h1>
-    <p>Generated at {html.escape(str(index_record.get('generated_at')))}</p>
-    {summary_cards}
+    <p>Generated at <span id="generated-at"></span></p>
+    <div class="scope-bar">
+      <button type="button" data-scope="latest_series">Latest Series</button>
+      <button type="button" data-scope="all_history">All History</button>
+      <span class="muted" id="scope-label"></span>
+    </div>
+    <div class="grid">
+      <div class="card"><h2>Total Runs</h2><div class="metric" data-summary="total_runs">0</div></div>
+      <div class="card"><h2>Pass Rate</h2><div class="metric" data-summary="pass_rate">0%</div></div>
+      <div class="card"><h2>Average Score</h2><div class="metric" data-summary="avg_score">0</div></div>
+      <div class="card"><h2>Pass / Fail</h2><div class="metric" data-summary="pass_fail">0/0</div></div>
+    </div>
     <div class="card" style="margin-top: 16px;">
       <h2>Score Trend</h2>
       {chart_svg}
@@ -373,12 +415,74 @@ class ReportExporter:
     <div class="card">
       <table>
         <thead>
-          <tr><th>Skill</th><th>Series</th><th>Run</th><th>Verdict</th><th>Score</th><th>Report</th></tr>
+          <tr><th>Skill</th><th>Series</th><th>Run</th><th>Verdict</th><th>Score</th><th>Report</th><th>Output</th><th>Skill</th></tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody id="report-rows"></tbody>
       </table>
     </div>
   </div>
+  <script id="dashboard-data" type="application/json">{data_json}</script>
+  <script>
+    const data = JSON.parse(document.getElementById('dashboard-data').textContent);
+    const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({{
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }}[char]));
+    const link = (href, label) => href
+      ? `<a href="${{esc(href)}}">${{esc(label)}}</a>`
+      : `<span class="muted">n/a</span>`;
+    const scopedReports = (scope) => {{
+      if (scope === 'latest_series' && data.active_series_id) {{
+        return (data.reports || []).filter((item) => item.series_id === data.active_series_id);
+      }}
+      return data.reports || [];
+    }};
+    const summarize = (reports) => {{
+      const total = reports.length;
+      const pass = reports.filter((item) => item.verdict === 'pass').length;
+      const fail = reports.filter((item) => item.verdict === 'fail').length;
+      const scoreSum = reports.reduce((sum, item) => sum + Number(item.score || 0), 0);
+      return {{
+        total_runs: total,
+        pass_count: pass,
+        fail_count: fail,
+        pass_rate: total ? Math.round((pass / total) * 1000) / 10 : 0,
+        avg_score: total ? Math.round((scoreSum / total) * 100) / 100 : 0
+      }};
+    }};
+    const render = (scope) => {{
+      const reports = scopedReports(scope);
+      const summary = summarize(reports);
+      document.querySelector('[data-summary="total_runs"]').textContent = summary.total_runs ?? 0;
+      document.querySelector('[data-summary="pass_rate"]').textContent = `${{summary.pass_rate ?? 0}}%`;
+      document.querySelector('[data-summary="avg_score"]').textContent = summary.avg_score ?? 0;
+      document.querySelector('[data-summary="pass_fail"]').textContent = `${{summary.pass_count ?? 0}}/${{summary.fail_count ?? 0}}`;
+      document.getElementById('scope-label').textContent =
+        scope === 'latest_series' && data.active_series_id
+          ? `Showing latest series: ${{data.active_series_id}}`
+          : 'Showing all historical reports';
+      document.querySelectorAll('[data-scope]').forEach((button) => {{
+        button.setAttribute('aria-pressed', button.dataset.scope === scope ? 'true' : 'false');
+      }});
+      document.getElementById('report-rows').innerHTML = reports.map((item) => `
+        <tr>
+          <td>${{esc(item.skill_id)}}</td>
+          <td>${{esc(item.series_id || '')}}</td>
+          <td>${{esc(item.run_id)}}</td>
+          <td>${{esc(item.verdict)}}</td>
+          <td>${{esc(item.score)}}</td>
+          <td>${{link(item.report_html, 'Report')}}</td>
+          <td>${{link(item.output_html, 'Output')}}</td>
+          <td>${{link(item.skill_md, 'Skill')}}</td>
+        </tr>
+      `).join('');
+    }};
+
+    document.getElementById('generated-at').textContent = data.generated_at || '';
+    document.querySelectorAll('[data-scope]').forEach((button) => {{
+      button.addEventListener('click', () => render(button.dataset.scope));
+    }});
+    render(data.active_scope || 'latest_series');
+  </script>
 </body>
 </html>"""
 
@@ -421,11 +525,20 @@ class ReportExporter:
         </svg>
         """
 
+    def _optional_link(self, href: object, label: str) -> str:
+        if not href:
+            return "<span class='muted'>n/a</span>"
+        return f"<a href='{html.escape(str(href))}'>{html.escape(label)}</a>"
+
     def _infer_series_id(self, *, skill_id: str, run_id: str) -> str | None:
         prefix = f"{skill_id}-"
-        suffix = "-loop-"
-        if not run_id.startswith(prefix) or suffix not in run_id:
+        if not run_id.startswith(prefix):
             return None
         base = run_id.removeprefix(prefix)
-        series_part, _, _ = base.rpartition(suffix)
-        return series_part or None
+        if "-round-" in base:
+            series_part, _, _ = base.partition("-round-")
+            return series_part or None
+        if "-loop-" in base:
+            series_part, _, _ = base.partition("-loop-")
+            return series_part or None
+        return None

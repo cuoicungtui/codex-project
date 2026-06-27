@@ -37,6 +37,7 @@ def _hash_tree(root: Path) -> str:
 def _compose_skill_md(original_skill_md: str, revised_text: str) -> str:
     from agentskills_core import split_frontmatter
 
+    revised_text = _strip_markdown_fence(revised_text)
     original_frontmatter, original_body = split_frontmatter(original_skill_md)
     revised_frontmatter, revised_body = split_frontmatter(revised_text)
 
@@ -54,6 +55,15 @@ def _compose_skill_md(original_skill_md: str, revised_text: str) -> str:
 
     frontmatter_yaml = yaml.safe_dump(merged_frontmatter, sort_keys=False, allow_unicode=True).strip()
     return f"---\n{frontmatter_yaml}\n---\n\n{body.rstrip()}\n"
+
+
+def _strip_markdown_fence(text: str) -> str:
+    stripped = text.strip()
+    lines = stripped.splitlines()
+    if len(lines) >= 2 and lines[0].startswith("```") and lines[-1].strip() == "```":
+        return "\n".join(lines[1:-1]).strip()
+    cleaned_lines = [line for line in text.splitlines() if not line.strip().startswith("```")]
+    return "\n".join(cleaned_lines).strip()
 
 
 class SkillReviser:

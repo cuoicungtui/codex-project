@@ -6,14 +6,15 @@ import unittest
 from pathlib import Path
 
 from skill_runtime.application.bootstrap_workspace import WorkspaceBootstrapper
-from skill_runtime.application.revise_skill import SkillReviser
+from skill_runtime.application.revise_skill import SkillReviser, _compose_skill_md
 from skill_runtime.application.version_skill import SkillVersioner
 from skill_runtime.domain.runs import RuntimeModelConfig
 
 
 class FakeRevisionModel:
     def generate(self, *, system_prompt: str, user_prompt: str, config: RuntimeModelConfig) -> str:
-        return """---
+        return """```markdown
+---
 name: echo-skill
 description: Revised echo skill with tighter instructions.
 ---
@@ -21,10 +22,36 @@ description: Revised echo skill with tighter instructions.
 # Revised Echo Skill
 
 Return a concise response in one sentence.
+```
 """
 
 
 class ReviseSkillTests(unittest.TestCase):
+    def test_compose_strips_body_markdown_fence_after_frontmatter(self) -> None:
+        original = """---
+name: echo-skill
+description: Echo the task input back in a concise form.
+---
+
+# Echo Skill
+"""
+        revised = """---
+name: echo-skill
+description: Revised echo skill.
+---
+
+```
+
+# Revised Echo Skill
+```
+"""
+
+        result = _compose_skill_md(original, revised)
+
+        self.assertTrue(result.startswith("---\nname: echo-skill"))
+        self.assertNotIn("```", result)
+        self.assertIn("# Revised Echo Skill", result)
+
     def test_revise_creates_new_version(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             workspace = Path(tmp) / "workspace"
@@ -73,10 +100,12 @@ description: Echo the task input back in a concise form.
             )
 
             self.assertTrue(result.package_root.is_dir())
-            self.assertTrue((result.package_root / "SKILL.md").is_file())
+            skill_md = (result.package_root / "SKILL.md")
+            self.assertTrue(skill_md.is_file())
+            self.assertTrue(skill_md.read_text(encoding="utf-8").startswith("---\nname: echo-skill"))
+            self.assertNotIn("```", skill_md.read_text(encoding="utf-8"))
             self.assertNotEqual(result.version_id, base.version_id)
 
 
 if __name__ == "__main__":
     unittest.main()
-

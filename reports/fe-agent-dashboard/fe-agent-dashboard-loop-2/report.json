@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
-  "report_id": "20260627T072334Z-d3bf2d45",
+  "report_id": "20260627T081226Z-6467d949",
   "skill_id": "fe-agent-dashboard",
   "run_id": "fe-agent-dashboard-loop-2",
-  "generated_at": "2026-06-27T07:23:34.971595Z",
+  "series_id": null,
+  "generated_at": "2026-06-27T08:12:26.876286Z",
   "run": {
     "schema_version": 1,
     "run_id": "fe-agent-dashboard-loop-2",
@@ -100,15 +101,15 @@
   },
   "highlights": {
     "output_preview": "<!-- Mock Data Dashboard (single-file HTML/CSS/JS) ------------------------------------------------- This file generates all UI and mock data client‑side. Open the file in any modern browser to view the dashboard. The mock data includes a variety of agent runs (success, failed, partial, stale, sele…",
-    "improvement_hint": "Current version 20260627T072305Z-52446743 can be compared with 20260627T072204Z-99bd8d55 for improvement analysis."
+    "improvement_hint": "Current version 20260627T072305Z-52446743 can be compared with 20260627T080850Z-a336afde for improvement analysis."
   },
   "artifacts": {
-    "run_json": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\run.json",
-    "trace_jsonl": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\trace.jsonl",
-    "eval_json": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\eval.json",
-    "feedback_json": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\feedback.json",
-    "output_md": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\artifacts\\output.md",
-    "output_html": "runs\\fe-agent-dashboard\\fe-agent-dashboard-loop-2\\artifacts\\output.html"
+    "run_json": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/run.json",
+    "trace_jsonl": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/trace.jsonl",
+    "eval_json": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/eval.json",
+    "feedback_json": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/feedback.json",
+    "output_md": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/artifacts/output.md",
+    "output_html": "../../../runs/fe-agent-dashboard/fe-agent-dashboard-loop-2/artifacts/output.html"
   },
   "trace": [
     {
