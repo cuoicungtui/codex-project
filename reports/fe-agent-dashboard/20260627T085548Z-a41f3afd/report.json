@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "report_id": "20260627T085716Z-4fffaf6c",
+  "skill_id": "fe-agent-dashboard",
+  "run_id": "20260627T085548Z-a41f3afd",
+  "series_id": null,
+  "generated_at": "2026-06-27T08:57:16.767459Z",
+  "run": {
+    "schema_version": 1,
+    "run_id": "20260627T085548Z-a41f3afd",
+    "skill_id": "fe-agent-dashboard",
+    "skill_version_id": "20260627T085538Z-c6b43b7e",
+    "status": "completed",
+    "started_at": "2026-06-27T08:55:48.457879Z",
+    "completed_at": "2026-06-27T08:56:28.029812Z",
+    "workspace_root": ".",
+    "artifacts_dir": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts",
+    "trace_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\trace.jsonl",
+    "output_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts\\output.md",
+    "output_html_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts\\output.html",
+    "input": {
+      "text": "Create a compact complete single-file HTML dashboard for agent runs. Must close all tags. Include KPI overview, anomaly alerts, trend charts, sortable/filterable table, selected detail panel, dark mode, responsive mobile, and states loading empty error partial selected stale."
+    },
+    "model": {
+      "provider": "openai_compatible",
+      "model": "nebius/nvidia/nemotron-3-nano-omni",
+      "base_url": "https://router.requesty.ai/v1",
+      "temperature": 0.0,
+      "max_tokens": 20000,
+      "timeout_seconds": 300,
+      "reasoning_effort": "none"
+    },
+    "error_message": null
+  },
+  "evaluation": {
+    "schema_version": 1,
+    "run_id": "20260627T085548Z-a41f3afd",
+    "skill_id": "fe-agent-dashboard",
+    "skill_version_id": "20260627T085538Z-c6b43b7e",
+    "verdict": "pass",
+    "score": 1.0,
+    "metrics": {
+      "trace_event_count": 5,
+      "output_char_count": 12136,
+      "has_output": true,
+      "rubric_applied": true
+    },
+    "issues": [],
+    "created_at": "2026-06-27T08:56:57.176695Z"
+  },
+  "feedback": {
+    "schema_version": 1,
+    "run_id": "20260627T085548Z-a41f3afd",
+    "skill_id": "fe-agent-dashboard",
+    "skill_version_id": "20260627T085538Z-c6b43b7e",
+    "summary": "The reduced FE dashboard skill succeeded with the configured small model. The model produced a complete HTML document with required markers, closed tags, mock data, table, states, and JavaScript.",
+    "recommendations": [
+      "Keep the compact skill shape because it avoids reasoning-token exhaustion for this model.",
+      "For the next improvement loop, focus on visual quality and JS correctness instead of adding long prose to the skill.",
+      "Preserve the exact audit marker and closed-tag checks because they caught previous partial outputs.",
+      "Consider adding automated HTML validity and browser smoke checks as a separate evaluator."
+    ],
+    "evidence": [
+      "eval.json verdict is pass with score 1.0.",
+      "run.json records model nebius/nvidia/nemotron-3-nano-omni with max_tokens 20000 and reasoning_effort none.",
+      "artifacts/output.html exists and includes closing script/body/html tags."
+    ],
+    "created_at": "2026-06-27T08:58:00Z"
+  },
+  "metrics": {
+    "trace_event_count": 5,
+    "output_char_count": 12136
+  },
+  "highlights": {
+    "output_preview": "<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>Agent Runs Dashboard</title> <style> :root { --bg: #fff; --fg: #000; --primary: #007bff; --danger: #dc3545; --success: #28a745; --warning: #ffc107; --dark-bg: #…",
+    "improvement_hint": "Current version 20260627T085538Z-c6b43b7e can be compared with 20260627T084308Z-3f2f4850 for improvement analysis."
+  },
+  "artifacts": {
+    "run_json": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/run.json",
+    "trace_jsonl": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/trace.jsonl",
+    "eval_json": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/eval.json",
+    "feedback_json": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/feedback.json",
+    "output_md": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/artifacts/output.md",
+    "output_html": "../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/artifacts/output.html"
+  },
+  "trace": [
+    {
+      "schema_version": 1,
+      "timestamp": "2026-06-27T08:55:48.457879Z",
+      "run_id": "20260627T085548Z-a41f3afd",
+      "event": "run_started",
+      "payload": {
+        "skill_id": "fe-agent-dashboard",
+        "version_id": "20260627T085538Z-c6b43b7e"
+      }
+    },
+    {
+      "schema_version": 1,
+      "timestamp": "2026-06-27T08:55:48.479942Z",
+      "run_id": "20260627T085548Z-a41f3afd",
+      "event": "skill_loaded",
+      "payload": {
+        "skill_id": "fe-agent-dashboard",
+        "version_id": "20260627T085538Z-c6b43b7e",
+        "metadata_name": "fe-agent-dashboard"
+      }
+    },
+    {
+      "schema_version": 1,
+      "timestamp": "2026-06-27T08:55:48.479942Z",
+      "run_id": "20260627T085548Z-a41f3afd",
+      "event": "model_request",
+      "payload": {
+        "provider": "openai_compatible",
+        "model": "nebius/nvidia/nemotron-3-nano-omni",
+        "temperature": 0.0,
+        "max_tokens": 20000
+      }
+    },
+    {
+      "schema_version": 1,
+      "timestamp": "2026-06-27T08:56:28.029812Z",
+      "run_id": "20260627T085548Z-a41f3afd",
+      "event": "model_response",
+      "payload": {
+        "output_chars": 12136,
+        "output_preview": "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>Agent Runs Dashboard</title>\n<style>\n:root {\n  --bg: #fff;\n  --fg: #000;\n  --primary: #007bff;\n  --danger: #dc3545;\n  --success: #28a745;\n  --warning: #ffc107;\n  --dark-bg: #212529;\n  --dark-fg: #fff;\n}\nbody.dark {\n  --bg: var(--dark-bg);\n  --fg: var(--dark-fg);\n}\nbody {\n  margin:0;\n  font-family:system-ui,sans-serif;\n  background:var(--bg);\n  color:var(--fg)"
+      }
+    },
+    {
+      "schema_version": 1,
+      "timestamp": "2026-06-27T08:56:28.030341Z",
+      "run_id": "20260627T085548Z-a41f3afd",
+      "event": "run_finished",
+      "payload": {
+        "status": "completed"
+      }
+    }
+  ]
+}

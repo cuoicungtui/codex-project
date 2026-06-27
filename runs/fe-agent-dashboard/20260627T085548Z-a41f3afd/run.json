@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T085548Z-a41f3afd",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T085538Z-c6b43b7e",
+  "status": "completed",
+  "started_at": "2026-06-27T08:55:48.457879Z",
+  "completed_at": "2026-06-27T08:56:28.029812Z",
+  "workspace_root": ".",
+  "artifacts_dir": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts",
+  "trace_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\trace.jsonl",
+  "output_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts\\output.md",
+  "output_html_path": "runs\\fe-agent-dashboard\\20260627T085548Z-a41f3afd\\artifacts\\output.html",
+  "input": {
+    "text": "Create a compact complete single-file HTML dashboard for agent runs. Must close all tags. Include KPI overview, anomaly alerts, trend charts, sortable/filterable table, selected detail panel, dark mode, responsive mobile, and states loading empty error partial selected stale."
+  },
+  "model": {
+    "provider": "openai_compatible",
+    "model": "nebius/nvidia/nemotron-3-nano-omni",
+    "base_url": "https://router.requesty.ai/v1",
+    "temperature": 0.0,
+    "max_tokens": 20000,
+    "timeout_seconds": 300,
+    "reasoning_effort": "none"
+  },
+  "error_message": null
+}

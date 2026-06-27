@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Skill Runtime Report - fe-agent-dashboard / 20260627T085548Z-a41f3afd</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a31;
+      --panel-2: #18233f;
+      --text: #e6ecff;
+      --muted: #94a3b8;
+      --accent: #7dd3fc;
+      --good: #4ade80;
+      --bad: #f87171;
+      --border: rgba(148, 163, 184, 0.22);
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #16213e, var(--bg));
+      color: var(--text);
+    }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 56px; }
+    .hero { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card {
+      background: rgba(18, 26, 49, 0.88);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    }
+    h1, h2 { margin: 0 0 12px; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.1rem; color: var(--accent); }
+    .muted { color: var(--muted); }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); margin-top: 16px; }
+    .metric { font-size: 1.5rem; font-weight: 700; }
+    .status-good { color: var(--good); }
+    .status-bad { color: var(--bad); }
+    code, pre { font-family: Consolas, monospace; }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: var(--panel-2);
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: auto;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid var(--border); padding: 10px; text-align: left; vertical-align: top; }
+    th { color: var(--accent); }
+    ul { margin: 8px 0 0 18px; }
+    a { color: var(--accent); }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(125, 211, 252, 0.12);
+      border: 1px solid rgba(125, 211, 252, 0.3);
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="card">
+        <h1>Skill Runtime Report</h1>
+        <p class="muted">Skill: <code>fe-agent-dashboard</code></p>
+        <p class="muted">Series: <code></code></p>
+        <p class="muted">Run: <code>20260627T085548Z-a41f3afd</code></p>
+        <p class="muted">Generated: 2026-06-27T08:57:16.767459Z</p>
+      </div>
+      <div class="card">
+        <h2>Verdict</h2>
+        <div class="metric status-good">pass</div>
+        <div class="muted">Score: 1.0</div>
+      </div>
+      <div class="card">
+        <h2>Improvement Hint</h2>
+        <p>Current version 20260627T085538Z-c6b43b7e can be compared with 20260627T084308Z-3f2f4850 for improvement analysis.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Run Summary</h2>
+        <p><span class="pill">status: completed</span><span class="pill">skill version: 20260627T085538Z-c6b43b7e</span></p>
+        <p class="muted">Model: nebius/nvidia/nemotron-3-nano-omni</p>
+        <p class="muted">Output preview:</p>
+        <pre>&lt;!doctype html&gt; &lt;html lang=&quot;en&quot;&gt; &lt;head&gt; &lt;meta charset=&quot;utf-8&quot;&gt; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt; &lt;title&gt;Agent Runs Dashboard&lt;/title&gt; &lt;style&gt; :root { --bg: #fff; --fg: #000; --primary: #007bff; --danger: #dc3545; --success: #28a745; --warning: #ffc107; --dark-bg: #…</pre>
+      </div>
+      <div class="card">
+        <h2>Issues</h2>
+        <ul><li>No issues</li></ul>
+      </div>
+      <div class="card">
+        <h2>Feedback</h2>
+        <ul><li>Keep the compact skill shape because it avoids reasoning-token exhaustion for this model.</li><li>For the next improvement loop, focus on visual quality and JS correctness instead of adding long prose to the skill.</li><li>Preserve the exact audit marker and closed-tag checks because they caught previous partial outputs.</li><li>Consider adding automated HTML validity and browser smoke checks as a separate evaluator.</li></ul>
+      </div>
+      <div class="card">
+        <h2>Artifacts</h2>
+        <ul>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/run.json">run.json</a></li>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/trace.jsonl">trace.jsonl</a></li>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/eval.json">eval.json</a></li>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/feedback.json">feedback.json</a></li>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/artifacts/output.md">output.md</a></li>
+          <li><a href="../../../runs/fe-agent-dashboard/20260627T085548Z-a41f3afd/artifacts/output.html">output.html</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 16px;">
+      <h2>Trace Timeline</h2>
+      <table>
+        <thead>
+          <tr><th>Timestamp</th><th>Event</th><th>Payload</th></tr>
+        </thead>
+        <tbody><tr><td>2026-06-27T08:55:48.457879Z</td><td>run_started</td><td><pre>{
+  &quot;skill_id&quot;: &quot;fe-agent-dashboard&quot;,
+  &quot;version_id&quot;: &quot;20260627T085538Z-c6b43b7e&quot;
+}</pre></td></tr><tr><td>2026-06-27T08:55:48.479942Z</td><td>skill_loaded</td><td><pre>{
+  &quot;skill_id&quot;: &quot;fe-agent-dashboard&quot;,
+  &quot;version_id&quot;: &quot;20260627T085538Z-c6b43b7e&quot;,
+  &quot;metadata_name&quot;: &quot;fe-agent-dashboard&quot;
+}</pre></td></tr><tr><td>2026-06-27T08:55:48.479942Z</td><td>model_request</td><td><pre>{
+  &quot;provider&quot;: &quot;openai_compatible&quot;,
+  &quot;model&quot;: &quot;nebius/nvidia/nemotron-3-nano-omni&quot;,
+  &quot;temperature&quot;: 0.0,
+  &quot;max_tokens&quot;: 20000
+}</pre></td></tr><tr><td>2026-06-27T08:56:28.029812Z</td><td>model_response</td><td><pre>{
+  &quot;output_chars&quot;: 12136,
+  &quot;output_preview&quot;: &quot;&lt;!doctype html&gt;\n&lt;html lang=\&quot;en\&quot;&gt;\n&lt;head&gt;\n&lt;meta charset=\&quot;utf-8\&quot;&gt;\n&lt;meta name=\&quot;viewport\&quot; content=\&quot;width=device-width, initial-scale=1\&quot;&gt;\n&lt;title&gt;Agent Runs Dashboard&lt;/title&gt;\n&lt;style&gt;\n:root {\n  --bg: #fff;\n  --fg: #000;\n  --primary: #007bff;\n  --danger: #dc3545;\n  --success: #28a745;\n  --warning: #ffc107;\n  --dark-bg: #212529;\n  --dark-fg: #fff;\n}\nbody.dark {\n  --bg: var(--dark-bg);\n  --fg: var(--dark-fg);\n}\nbody {\n  margin:0;\n  font-family:system-ui,sans-serif;\n  background:var(--bg);\n  color:var(--fg)&quot;
+}</pre></td></tr><tr><td>2026-06-27T08:56:28.030341Z</td><td>run_finished</td><td><pre>{
+  &quot;status&quot;: &quot;completed&quot;
+}</pre></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
