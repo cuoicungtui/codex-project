@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "run_id": "codex-sample-20260627T0834",
+  "skill_id": "fe-agent-dashboard",
+  "summary": "The sample satisfies the core single-file dashboard contract and has a coherent operational layout, but the skill should force more audit-oriented data, better chart labeling, and workflow-connected UI states instead of static state examples only.",
+  "recommendations": [
+    "Require run mock data to include started_at or updated_at timestamps and show them in the table and detail panel.",
+    "Require charts to include labels, legends, current value annotations, and time buckets so users can scan them without guessing.",
+    "Require filter/search to render an actual empty state when no rows match.",
+    "Require dark mode toggle to update its text and aria-pressed state.",
+    "Require detail panel to include trace steps with timestamps, failure evidence, and a recommended next action.",
+    "Clarify that state shelf is allowed, but loading/empty/error/partial/selected/stale must also appear in the main dashboard workflow when practical."
+  ],
+  "evidence": [
+    "runs/fe-agent-dashboard/codex-sample-20260627T0834/artifacts/output.html",
+    "runs/fe-agent-dashboard/codex-sample-20260627T0834/eval.json"
+  ]
+}

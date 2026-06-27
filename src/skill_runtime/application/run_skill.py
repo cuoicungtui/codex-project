@@ -136,6 +136,8 @@ class RunExecutor:
                 user_prompt=user_prompt,
                 config=config,
             )
+            if not output_text.strip():
+                raise ValueError("Model returned empty content")
             output_path.write_text(output_text + "\n", encoding="utf-8")
             if output_text.lstrip().startswith("<") or "<html" in output_text.lower():
                 output_html_path.write_text(output_text + "\n", encoding="utf-8")

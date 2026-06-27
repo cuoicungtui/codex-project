@@ -90,7 +90,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    load_dotenv(override=True)
+    load_dotenv(override=False)
     parser = build_parser()
     args = parser.parse_args(argv)
 

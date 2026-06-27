@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "run_id": "codex-sample-20260627T0834",
+  "skill_id": "fe-agent-dashboard",
+  "verdict": "pass",
+  "score": 0.84,
+  "criteria": {
+    "output_contract": 1.0,
+    "visual_hierarchy": 0.86,
+    "dashboard_completeness": 0.9,
+    "interaction_quality": 0.72,
+    "state_coverage": 0.76,
+    "mock_data_realism": 0.82,
+    "responsive_behavior": 0.88,
+    "production_feel": 0.82
+  },
+  "issues": [
+    {
+      "code": "STATIC_STATE_SHELF",
+      "message": "Loading, empty, error, partial, selected, and stale states are visible, but most are static examples instead of being wired into table/filter/detail behavior.",
+      "evidence": [
+        "State shelf includes labels, but filtering to zero results does not render a dedicated empty table state.",
+        "Error and loading states are not represented in the main workflow."
+      ]
+    },
+    {
+      "code": "MISSING_TIMESTAMPS_IN_RUN_TABLE",
+      "message": "Mock data requirements mention timestamps, but the runs table does not expose started/updated timestamps or freshness per run.",
+      "evidence": [
+        "Table columns are Run, Agent, Status, Score, Model, Duration, Tokens.",
+        "Only the global header shows stale: 11 min old."
+      ]
+    },
+    {
+      "code": "CHARTS_LACK_CONTEXT_LABELS",
+      "message": "Charts create a trend impression but lack axis labels, current values, or legends, reducing 5-10 second scan value.",
+      "evidence": [
+        "Quality chart and latency chart use SVG marks without labeled time buckets or values."
+      ]
+    },
+    {
+      "code": "DARK_MODE_CONTROL_FEEDBACK",
+      "message": "Dark mode toggle changes theme but does not update button label or aria state.",
+      "evidence": [
+        "Button always reads Dark mode after switching to light mode."
+      ]
+    },
+    {
+      "code": "DETAIL_PANEL_COULD_BE_MORE_AUDITABLE",
+      "message": "Detail panel shows key fields but not enough trace evidence, timestamps, or next action to audit a failure quickly.",
+      "evidence": [
+        "Trace summary is a static string: plan -> act -> tool -> eval -> feedback."
+      ]
+    }
+  ]
+}

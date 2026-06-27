@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T083942Z-486d4ddc",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T083755Z-8e889c06",
+  "verdict": "fail",
+  "score": 0.0,
+  "metrics": {
+    "trace_event_count": 5,
+    "output_char_count": 1849,
+    "has_output": true,
+    "rubric_applied": true
+  },
+  "issues": [
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: loading",
+      "evidence": [
+        "output.md missing 'loading'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: empty",
+      "evidence": [
+        "output.md missing 'empty'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: error",
+      "evidence": [
+        "output.md missing 'error'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: partial",
+      "evidence": [
+        "output.md missing 'partial'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: mock",
+      "evidence": [
+        "output.md missing 'mock'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: agent runs",
+      "evidence": [
+        "output.md missing 'agent runs'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: badge",
+      "evidence": [
+        "output.md missing 'badge'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: table",
+      "evidence": [
+        "output.md missing 'table'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: sortable",
+      "evidence": [
+        "output.md missing 'sortable'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: trend",
+      "evidence": [
+        "output.md missing 'trend'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: @media",
+      "evidence": [
+        "output.md missing '@media'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: detail",
+      "evidence": [
+        "output.md missing 'detail'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: dark mode",
+      "evidence": [
+        "output.md missing 'dark mode'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: loading",
+      "evidence": [
+        "output.md missing 'loading'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: empty",
+      "evidence": [
+        "output.md missing 'empty'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: error",
+      "evidence": [
+        "output.md missing 'error'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: partial",
+      "evidence": [
+        "output.md missing 'partial'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: mock",
+      "evidence": [
+        "output.md missing 'mock'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: agent runs",
+      "evidence": [
+        "output.md missing 'agent runs'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: badge",
+      "evidence": [
+        "output.md missing 'badge'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: table",
+      "evidence": [
+        "output.md missing 'table'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: sortable",
+      "evidence": [
+        "output.md missing 'sortable'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: trend",
+      "evidence": [
+        "output.md missing 'trend'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: @media",
+      "evidence": [
+        "output.md missing '@media'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: detail",
+      "evidence": [
+        "output.md missing 'detail'"
+      ]
+    },
+    {
+      "code": "output_missing_expected_text",
+      "message": "Output does not contain required text: dark mode",
+      "evidence": [
+        "output.md missing 'dark mode'"
+      ]
+    }
+  ],
+  "created_at": "2026-06-27T08:40:06.561743Z"
+}

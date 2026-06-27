@@ -23,19 +23,6 @@ Build in this order:
 
 If output budget feels tight, prefer a simpler but complete dashboard over an ambitious partial dashboard.
 
-## Ultra-Compact Completion Mode
-
-Use this mode when the runtime model is small, reasoning-heavy, or likely to stop early.
-
-- Target a complete document under about 250 lines.
-- Use 6-8 compact mock run records, not large datasets.
-- Keep CSS under about 110 lines. Prefer shared classes over many section-specific selectors.
-- Build one screen: header, KPI grid, anomaly strip, chart row, table, detail aside, and state shelf.
-- Use simple CSS bars or tiny inline SVG for charts.
-- Write the body and script before adding nonessential decoration.
-- Avoid emoji, long comments, verbose prose, and decorative extras until the full document is complete.
-- Include exact marker words in visible labels or concise comments: `mock`, `agent runs`, `badge`, `sortable`, `trend`, `anomaly`, `dark mode`, `loading`, `empty`, `error`, `partial`, `selected`, `stale`.
-
 ## Non-Negotiable Output Contract
 
 - Output only the HTML document, starting with `<!doctype html>` or `<html>`.
@@ -75,8 +62,8 @@ Use realistic mock data that exposes both happy and failure paths:
 - selected run
 - at least one anomaly
 - different agents, models, durations, token counts, and timestamps
-- at least 6 run rows; prefer 8 rows if output budget is comfortable
-- Keep mock records compact. A good default is 6-8 run objects with fields: id, agent, status, score, model, started_at, duration, tokens, cost, severity, reason, and next_action.
+- at least 8 run rows so sorting, filtering, selected state, and failure patterns feel realistic
+- Keep mock records compact. A good default is 8-10 run objects with fields: id, agent, status, score, model, started_at, duration, tokens, cost, severity, reason, and next_action.
 
 ## Interaction Requirements
 
@@ -101,7 +88,6 @@ Use realistic mock data that exposes both happy and failure paths:
 - Do not hide operational evidence. Failed and partial runs should expose trace evidence or root cause in the detail panel.
 - Prefer production dashboard density: enough rows, compact labels, and clear grouping. Avoid sparse toy examples.
 - Keep CSS compact enough for small-model completion. Use a focused design system instead of many long one-off selectors.
-- A complete but simpler dashboard beats a visually rich incomplete dashboard.
 
 ## Before Final Output Self-Check
 
@@ -118,7 +104,6 @@ Before returning the HTML, verify these are true:
 - Detail panel includes trace evidence and next action for a failed or partial run.
 - Mobile `@media` rules prevent overflow.
 - The hidden audit marker is present near the end.
-- Required marker words are present exactly, not only implied by visuals.
 
 ## Evaluation-Oriented Reminders
 

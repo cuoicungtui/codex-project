@@ -1,0 +1,5 @@
+{"schema_version": 1, "timestamp": "2026-06-27T08:31:39.090107Z", "run_id": "20260627T083139Z-0025664c", "event": "run_started", "payload": {"skill_id": "fe-agent-dashboard", "version_id": "20260627T083130Z-98dcd2f4"}}
+{"schema_version": 1, "timestamp": "2026-06-27T08:31:39.097824Z", "run_id": "20260627T083139Z-0025664c", "event": "skill_loaded", "payload": {"skill_id": "fe-agent-dashboard", "version_id": "20260627T083130Z-98dcd2f4", "metadata_name": "fe-agent-dashboard"}}
+{"schema_version": 1, "timestamp": "2026-06-27T08:31:39.097824Z", "run_id": "20260627T083139Z-0025664c", "event": "model_request", "payload": {"provider": "openai_compatible", "model": "nebius/nvidia/nemotron-3-nano-omni", "temperature": 0.0, "max_tokens": 200000}}
+{"schema_version": 1, "timestamp": "2026-06-27T08:31:41.480693Z", "run_id": "20260627T083139Z-0025664c", "event": "run_failed", "payload": {"error": "BadRequestError: Error code: 400 - {'error': {'origin': 'provider', 'message': 'Bad Request'}}"}}
+{"schema_version": 1, "timestamp": "2026-06-27T08:31:41.480693Z", "run_id": "20260627T083139Z-0025664c", "event": "run_finished", "payload": {"status": "failed"}}

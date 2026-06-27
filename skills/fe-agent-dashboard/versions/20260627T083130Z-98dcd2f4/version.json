@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "skill_id": "fe-agent-dashboard",
+  "version_id": "20260627T083130Z-98dcd2f4",
+  "source_root": "skills\\fe-agent-dashboard",
+  "package_root": "skills\\fe-agent-dashboard\\versions\\20260627T083130Z-98dcd2f4\\fe-agent-dashboard",
+  "created_at": "2026-06-27T08:31:30.586139Z",
+  "content_hash": "6306f3bb1b8bb1c61eeae3c6bc58bcfdb82c8c3210cf1cef2235a46be7ac0be1"
+}

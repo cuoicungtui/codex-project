@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T084139Z-0b91a29d",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T084127Z-7d342ec1",
+  "status": "completed",
+  "started_at": "2026-06-27T08:41:39.771310Z",
+  "completed_at": "2026-06-27T08:42:08.070023Z",
+  "workspace_root": ".",
+  "artifacts_dir": "runs\\fe-agent-dashboard\\20260627T084139Z-0b91a29d\\artifacts",
+  "trace_path": "runs\\fe-agent-dashboard\\20260627T084139Z-0b91a29d\\trace.jsonl",
+  "output_path": "runs\\fe-agent-dashboard\\20260627T084139Z-0b91a29d\\artifacts\\output.md",
+  "output_html_path": "runs\\fe-agent-dashboard\\20260627T084139Z-0b91a29d\\artifacts\\output.html",
+  "input": {
+    "text": "Build a single-file HTML/CSS/JS production-style AI agent operations dashboard using mock data. Include KPI overview, labeled quality and operations trend charts, sortable and filterable runs table, right-side selected run detail panel with trace evidence, anomaly alerts, dark mode, responsive mobile layout, and visible loading, empty, error, partial, selected, and stale states. Prioritize fast 5-10 second scanning, strong visual hierarchy, consistent components, realistic happy-path plus failure-path data, and a complete valid HTML document."
+  },
+  "model": {
+    "provider": "openai_compatible",
+    "model": "nebius/nvidia/nemotron-3-nano-omni",
+    "base_url": "https://router.requesty.ai/v1",
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "timeout_seconds": 300
+  },
+  "error_message": null
+}

@@ -1,0 +1,31 @@
+{
+  "required_output_contains": [
+    "<html",
+    "<style",
+    "loading",
+    "empty",
+    "error",
+    "partial",
+    "selected",
+    "stale",
+    "mock",
+    "agent runs",
+    "card",
+    "badge",
+    "table",
+    "sortable",
+    "trend",
+    "anomaly",
+    "grid",
+    "@media",
+    "detail",
+    "dark mode"
+  ],
+  "required_trace_events": [
+    "run_started",
+    "skill_loaded",
+    "model_request",
+    "model_response",
+    "run_finished"
+  ]
+}

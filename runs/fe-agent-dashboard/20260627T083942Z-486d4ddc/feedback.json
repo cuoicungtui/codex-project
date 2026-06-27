@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T083942Z-486d4ddc",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T083755Z-8e889c06",
+  "summary": "The small model started a plausible dashboard but stopped inside CSS before producing a complete document body or JavaScript. The skill is too broad for this model/context setting and needs a compact execution strategy that prioritizes a complete, valid HTML artifact over visual ambition.",
+  "recommendations": [
+    "Add a compact-mode instruction for small models: build a complete minimal dashboard first, then add polish only if budget remains.",
+    "Explicitly require the model to close `</style>`, complete `<body>`, include one `<script>`, and close `</script></body></html>`.",
+    "Reduce required implementation complexity: use simple inline SVG or CSS charts, 8 rows of mock data, one table, one detail panel, and one state shelf instead of extensive decorative CSS.",
+    "Tell the model not to spend many tokens on large CSS systems before the HTML body exists.",
+    "Add a final self-check that incomplete CSS, missing body, missing script, or unclosed tags fail the task.",
+    "Keep the audit marker, but make the marker a final checklist rather than relying on broad prose in the prompt."
+  ],
+  "evidence": [
+    "trace.jsonl shows model_response output_chars=1849 and status completed.",
+    "output.html ends inside CSS at `.anomaly` and never reaches body content, table, states, script, or closing tags.",
+    "eval.json score is 0.0 because required markers and capabilities are missing."
+  ],
+  "created_at": "2026-06-27T08:43:00Z"
+}

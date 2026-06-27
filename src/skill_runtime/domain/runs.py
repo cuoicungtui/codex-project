@@ -13,6 +13,7 @@ class RuntimeModelConfig:
     temperature: float
     max_tokens: int
     timeout_seconds: int
+    reasoning_effort: str | None = None
 
     def public_dict(self) -> dict[str, object]:
         return {
@@ -22,6 +23,7 @@ class RuntimeModelConfig:
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
             "timeout_seconds": self.timeout_seconds,
+            "reasoning_effort": self.reasoning_effort,
         }
 
 

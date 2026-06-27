@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentOps Control Dashboard</title>
+  <style>
+    :root {
+      --bg: #09111f;
+      --bg-soft: #0d1728;
+      --panel: #111d32;
+      --panel-2: #15233a;
+      --text: #edf4ff;
+      --muted: #91a1b8;
+      --line: rgba(159, 178, 204, .18);
+      --accent: #60d8a8;
+      --blue: #63b3ff;
+      --warn: #f8c15c;
+      --bad: #ff6b7a;
+      --partial: #a78bfa;
+      --stale: #a3a3a3;
+      --shadow: 0 24px 70px rgba(0, 0, 0, .35);
+      font-family: "Aptos", "Segoe UI", sans-serif;
+    }
+    body.light {
+      --bg: #f4f7fb;
+      --bg-soft: #e8eef7;
+      --panel: #ffffff;
+      --panel-2: #f7faff;
+      --text: #111827;
+      --muted: #617086;
+      --line: rgba(17, 24, 39, .12);
+      --shadow: 0 24px 70px rgba(27, 39, 63, .14);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: radial-gradient(circle at 20% 0%, rgba(96, 216, 168, .18), transparent 30%), var(--bg); color: var(--text); }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 28px; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(18px); background: color-mix(in srgb, var(--bg) 88%, transparent); }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(22px, 3vw, 34px); letter-spacing: -.04em; }
+    h2 { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
+    button, select { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 12px; padding: 10px 12px; font-weight: 700; }
+    main { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; padding: 22px 28px 40px; }
+    .stack { display: grid; gap: 18px; }
+    .card, section, aside { background: linear-gradient(180deg, color-mix(in srgb, var(--panel) 94%, white 6%), var(--panel)); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); }
+    section, aside { padding: 18px; }
+    .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .freshness { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(248, 193, 92, .12); color: var(--warn); font-weight: 800; }
+    .freshness::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 0 5px rgba(248, 193, 92, .14); }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .kpi { padding: 18px; min-height: 132px; }
+    .kpi .label { color: var(--muted); font-size: 13px; }
+    .kpi .value { font-size: clamp(28px, 4vw, 44px); font-weight: 900; letter-spacing: -.06em; margin: 10px 0; }
+    .delta { display: inline-flex; border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 800; background: rgba(96, 216, 168, .12); color: var(--accent); }
+    .delta.bad { background: rgba(255, 107, 122, .12); color: var(--bad); }
+    .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
+    .alerts { display: grid; gap: 10px; }
+    .alert { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: start; padding: 12px; border-radius: 16px; background: var(--panel-2); border: 1px solid var(--line); }
+    .sev { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; background: var(--bad); }
+    .sev.warn { background: var(--warn); }
+    .sev.partial { background: var(--partial); }
+    .badge { display: inline-flex; border-radius: 999px; padding: 5px 9px; font-size: 12px; font-weight: 900; background: rgba(99, 179, 255, .12); color: var(--blue); }
+    .badge.success { background: rgba(96, 216, 168, .12); color: var(--accent); }
+    .badge.failed { background: rgba(255, 107, 122, .12); color: var(--bad); }
+    .badge.partial { background: rgba(167, 139, 250, .14); color: var(--partial); }
+    .badge.stale { background: rgba(163, 163, 163, .16); color: var(--stale); }
+    .chart-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .chart { padding: 14px; border-radius: 18px; background: var(--panel-2); border: 1px solid var(--line); }
+    svg { width: 100%; height: 160px; display: block; }
+    .table-tools { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+    input { border: 1px solid var(--line); background: var(--panel-2); color: var(--text); border-radius: 12px; padding: 10px 12px; min-width: 240px; }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 760px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; cursor: pointer; }
+    tbody tr { transition: .18s ease; }
+    tbody tr:hover, tbody tr.selected { background: color-mix(in srgb, var(--blue) 12%, transparent); }
+    aside { position: sticky; top: 92px; height: fit-content; }
+    .detail-title { display: flex; justify-content: space-between; gap: 10px; align-items: start; margin-bottom: 14px; }
+    .trace { display: grid; gap: 10px; margin-top: 14px; }
+    .trace div { display: grid; grid-template-columns: 74px 1fr; gap: 10px; color: var(--muted); font-size: 13px; }
+    .states { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+    .state { padding: 12px; border-radius: 16px; background: var(--panel-2); border: 1px dashed var(--line); min-height: 94px; }
+    .skeleton { height: 10px; border-radius: 999px; background: linear-gradient(90deg, var(--line), rgba(255,255,255,.18), var(--line)); animation: shimmer 1.2s infinite linear; }
+    @keyframes shimmer { from { opacity: .45; } 50% { opacity: 1; } to { opacity: .45; } }
+    @media (max-width: 1100px) { main { grid-template-columns: 1fr; } aside { position: static; } .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 720px) { header { align-items: flex-start; flex-direction: column; padding: 18px; } main { padding: 18px; } .grid, .split, .chart-wrap, .states { grid-template-columns: 1fr; } input { min-width: 100%; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>AgentOps Control</h1>
+      <p class="muted">Agent runs, mock data, health signals, anomalies, and execution quality in one scan.</p>
+    </div>
+    <div class="toolbar">
+      <span class="freshness">stale: 11 min old</span>
+      <select id="severityFilter" aria-label="Filter by severity">
+        <option value="all">All severities</option>
+        <option value="critical">Critical</option>
+        <option value="warning">Warning</option>
+      </select>
+      <button id="themeToggle">Dark mode</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stack">
+      <section>
+        <h2>KPI overview</h2>
+        <div class="grid">
+          <div class="card kpi"><div class="label">System health</div><div class="value">91%</div><span class="delta">+4.2%</span></div>
+          <div class="card kpi"><div class="label">Success rate</div><div class="value">87.5%</div><span class="delta bad">-3 failed</span></div>
+          <div class="card kpi"><div class="label">Active runs</div><div class="value">18</div><span class="delta">6 queued</span></div>
+          <div class="card kpi"><div class="label">p95 latency</div><div class="value">8.4s</div><span class="delta bad">+1.1s</span></div>
+        </div>
+      </section>
+
+      <div class="split">
+        <section>
+          <h2>Anomaly alerts</h2>
+          <div class="alerts">
+            <div class="alert" data-severity="critical"><span class="sev"></span><div><strong>Planner retries spiked</strong><p class="muted">run-1082 failed after 4 tool retries. Suggested action: inspect trace and tighten step budget.</p></div><span class="badge failed">critical</span></div>
+            <div class="alert" data-severity="warning"><span class="sev warn"></span><div><strong>Stale eval data</strong><p class="muted">dataset-fe-v3 has not refreshed for 11 minutes. Suggested action: rerun checks before deploy.</p></div><span class="badge stale">stale</span></div>
+            <div class="alert" data-severity="warning"><span class="sev partial"></span><div><strong>Partial artifact upload</strong><p class="muted">run-1078 produced HTML but missed screenshots. Suggested action: replay artifact collector.</p></div><span class="badge partial">partial</span></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Trend charts</h2>
+          <div class="chart-wrap">
+            <div class="chart">
+              <p><strong>Quality score trend</strong></p>
+              <svg viewBox="0 0 320 160" role="img" aria-label="trend quality chart">
+                <path d="M20 130 L80 94 L140 102 L200 62 L260 46 L300 34" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
+                <path d="M20 130 L80 94 L140 102 L200 62 L260 46 L300 34 L300 150 L20 150 Z" fill="rgba(96,216,168,.14)"/>
+              </svg>
+            </div>
+            <div class="chart">
+              <p><strong>Ops latency trend</strong></p>
+              <svg viewBox="0 0 320 160" role="img" aria-label="trend operations chart">
+                <rect x="28" y="78" width="32" height="62" rx="8" fill="var(--blue)"/>
+                <rect x="82" y="52" width="32" height="88" rx="8" fill="var(--partial)"/>
+                <rect x="136" y="95" width="32" height="45" rx="8" fill="var(--accent)"/>
+                <rect x="190" y="38" width="32" height="102" rx="8" fill="var(--warn)"/>
+                <rect x="244" y="66" width="32" height="74" rx="8" fill="var(--bad)"/>
+              </svg>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section>
+        <div class="table-tools">
+          <h2>Sortable run table</h2>
+          <div class="toolbar">
+            <input id="search" placeholder="Filter by run, agent, model, status">
+            <select id="statusFilter" aria-label="Filter by status">
+              <option value="all">All statuses</option>
+              <option value="success">Success</option>
+              <option value="failed">Failed</option>
+              <option value="partial">Partial</option>
+              <option value="stale">Stale</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th data-sort="id">Run</th><th data-sort="agent">Agent</th><th data-sort="status">Status</th><th data-sort="score">Score</th><th data-sort="model">Model</th><th data-sort="duration">Duration</th><th data-sort="tokens">Tokens</th></tr>
+            </thead>
+            <tbody id="runRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>State shelf</h2>
+        <div class="states">
+          <div class="state"><strong>loading</strong><p class="muted">Fetching trace.</p><div class="skeleton"></div></div>
+          <div class="state"><strong>empty</strong><p class="muted">No queued runs.</p></div>
+          <div class="state"><strong>error</strong><p class="muted">Provider timeout.</p></div>
+          <div class="state"><strong>partial</strong><p class="muted">Missing artifact.</p></div>
+          <div class="state"><strong>selected</strong><p class="muted">run-1081 highlighted.</p></div>
+          <div class="state"><strong>stale</strong><p class="muted">Eval older than SLA.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <aside>
+      <h2>Detail panel</h2>
+      <div id="detail"></div>
+    </aside>
+  </main>
+
+  <script>
+    const runs = [
+      {id:'run-1082', agent:'Planner', status:'failed', score:.41, model:'small-llm-a', duration:22.1, tokens:18400, reason:'Looped on tool retry budget', cost:'$0.42'},
+      {id:'run-1081', agent:'FE Builder', status:'success', score:.96, model:'small-llm-b', duration:7.8, tokens:9200, reason:'All checks passed', cost:'$0.18'},
+      {id:'run-1080', agent:'Reviewer', status:'success', score:.91, model:'small-llm-b', duration:5.3, tokens:6400, reason:'Minor warnings only', cost:'$0.10'},
+      {id:'run-1079', agent:'Doc Agent', status:'stale', score:.74, model:'small-llm-a', duration:9.7, tokens:12100, reason:'Dataset refresh exceeded SLA', cost:'$0.22'},
+      {id:'run-1078', agent:'Artifact Bot', status:'partial', score:.68, model:'small-llm-c', duration:12.4, tokens:11350, reason:'HTML saved, screenshot missing', cost:'$0.25'},
+      {id:'run-1077', agent:'Fixer', status:'success', score:.88, model:'small-llm-a', duration:6.6, tokens:7800, reason:'Recovered previous failure', cost:'$0.14'}
+    ];
+    let sortKey = 'id';
+    let sortDir = -1;
+    let selected = runs[1];
+    const badgeClass = (status) => status === 'success' ? 'success' : status === 'failed' ? 'failed' : status === 'partial' ? 'partial' : 'stale';
+    function renderRows() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value;
+      const filtered = runs
+        .filter(run => status === 'all' || run.status === status)
+        .filter(run => Object.values(run).join(' ').toLowerCase().includes(query))
+        .sort((a, b) => a[sortKey] > b[sortKey] ? sortDir : -sortDir);
+      document.getElementById('runRows').innerHTML = filtered.map(run => `
+        <tr class="${run.id === selected.id ? 'selected' : ''}" data-id="${run.id}">
+          <td><strong>${run.id}</strong></td>
+          <td>${run.agent}</td>
+          <td><span class="badge ${badgeClass(run.status)}">${run.status}</span></td>
+          <td>${Math.round(run.score * 100)}%</td>
+          <td>${run.model}</td>
+          <td>${run.duration}s</td>
+          <td>${run.tokens.toLocaleString()}</td>
+        </tr>`).join('');
+      document.querySelectorAll('tbody tr').forEach(row => row.addEventListener('click', () => {
+        selected = runs.find(run => run.id === row.dataset.id);
+        renderRows();
+        renderDetail();
+      }));
+    }
+    function renderDetail() {
+      document.getElementById('detail').innerHTML = `
+        <div class="detail-title"><div><h3>${selected.id}</h3><p class="muted">${selected.agent} on ${selected.model}</p></div><span class="badge ${badgeClass(selected.status)}">${selected.status}</span></div>
+        <p><strong>Failure or outcome:</strong> ${selected.reason}</p>
+        <div class="trace">
+          <div><span>Duration</span><strong>${selected.duration}s</strong></div>
+          <div><span>Score</span><strong>${Math.round(selected.score * 100)}%</strong></div>
+          <div><span>Tokens</span><strong>${selected.tokens.toLocaleString()}</strong></div>
+          <div><span>Cost</span><strong>${selected.cost}</strong></div>
+          <div><span>Trace</span><strong>plan -> act -> tool -> eval -> feedback</strong></div>
+        </div>`;
+    }
+    document.querySelectorAll('th[data-sort]').forEach(th => th.addEventListener('click', () => {
+      sortDir = sortKey === th.dataset.sort ? -sortDir : 1;
+      sortKey = th.dataset.sort;
+      renderRows();
+    }));
+    document.getElementById('search').addEventListener('input', renderRows);
+    document.getElementById('statusFilter').addEventListener('change', renderRows);
+    document.getElementById('severityFilter').addEventListener('change', (event) => {
+      document.querySelectorAll('.alert').forEach(alert => {
+        alert.style.display = event.target.value === 'all' || alert.dataset.severity === event.target.value ? 'grid' : 'none';
+      });
+    });
+    document.getElementById('themeToggle').addEventListener('click', () => document.body.classList.toggle('light'));
+    renderRows();
+    renderDetail();
+  </script>
+  <!-- audit: agent runs mock card badge table sortable trend anomaly grid detail dark mode loading empty error partial selected stale @media -->
+</body>
+</html>

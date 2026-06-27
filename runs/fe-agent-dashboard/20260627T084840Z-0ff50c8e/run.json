@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T084840Z-0ff50c8e",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T084308Z-3f2f4850",
+  "status": "completed",
+  "started_at": "2026-06-27T08:48:40.674004Z",
+  "completed_at": "2026-06-27T08:49:07.402009Z",
+  "workspace_root": ".",
+  "artifacts_dir": "runs\\fe-agent-dashboard\\20260627T084840Z-0ff50c8e\\artifacts",
+  "trace_path": "runs\\fe-agent-dashboard\\20260627T084840Z-0ff50c8e\\trace.jsonl",
+  "output_path": "runs\\fe-agent-dashboard\\20260627T084840Z-0ff50c8e\\artifacts\\output.md",
+  "output_html_path": null,
+  "input": {
+    "text": "Create the smallest complete valid single-file HTML dashboard for agent runs. Under 160 lines. Must close all tags. Include exact words: mock, agent runs, badge, sortable, trend, anomaly, dark mode, loading, empty, error, partial, selected, stale. Include simple CSS and JS only."
+  },
+  "model": {
+    "provider": "openai_compatible",
+    "model": "nebius/nvidia/nemotron-3-nano-omni",
+    "base_url": "https://router.requesty.ai/v1",
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "timeout_seconds": 300,
+    "reasoning_effort": "none"
+  },
+  "error_message": null
+}

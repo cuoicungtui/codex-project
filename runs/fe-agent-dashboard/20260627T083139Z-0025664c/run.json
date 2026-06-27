@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "run_id": "20260627T083139Z-0025664c",
+  "skill_id": "fe-agent-dashboard",
+  "skill_version_id": "20260627T083130Z-98dcd2f4",
+  "status": "failed",
+  "started_at": "2026-06-27T08:31:39.089193Z",
+  "completed_at": "2026-06-27T08:31:41.480693Z",
+  "workspace_root": ".",
+  "artifacts_dir": "runs\\fe-agent-dashboard\\20260627T083139Z-0025664c\\artifacts",
+  "trace_path": "runs\\fe-agent-dashboard\\20260627T083139Z-0025664c\\trace.jsonl",
+  "output_path": "runs\\fe-agent-dashboard\\20260627T083139Z-0025664c\\artifacts\\output.md",
+  "output_html_path": null,
+  "input": {
+    "text": "Build a single-file HTML/CSS/JS production-style AI agent operations dashboard using mock data. Include KPI overview, quality and operations trend charts, sortable and filterable runs table, right-side selected run detail panel, anomaly alerts, dark mode, responsive mobile layout, and visible loading, empty, error, partial, selected, and stale states. Prioritize fast 5-10 second scanning, strong visual hierarchy, consistent components, and realistic happy-path plus failure-path data."
+  },
+  "model": {
+    "provider": "openai_compatible",
+    "model": "nebius/nvidia/nemotron-3-nano-omni",
+    "base_url": "https://router.requesty.ai/v1",
+    "temperature": 0.0,
+    "max_tokens": 200000,
+    "timeout_seconds": 300
+  },
+  "error_message": "BadRequestError: Error code: 400 - {'error': {'origin': 'provider', 'message': 'Bad Request'}}"
+}

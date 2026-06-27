@@ -9,33 +9,6 @@ Build one production-like frontend dashboard for monitoring AI agent runs with m
 
 This skill is general-purpose for FE dashboard tasks. Treat the user input as the dashboard brief, not as permission to rewrite this skill. Improve the skill only through later feedback and revision cycles.
 
-## Small-Model Execution Strategy
-
-Small runtime models may run out of output budget or stop early. Optimize for a complete artifact first.
-
-Build in this order:
-
-1. Write the full HTML skeleton: `<!doctype html>`, `<html>`, `<head>`, viewport meta, `<style>`, `</style>`, `<body>`, `header`, `main`, `section`, `aside`, `<script>`, `</script>`, hidden audit marker, `</body>`, and `</html>`.
-2. Add the minimum complete dashboard structure before adding polish: KPI cards, anomalies, two charts, runs table, detail panel, and state shelf.
-3. Add compact CSS tokens and reusable classes. Do not spend most of the output on decorative CSS before the body exists.
-4. Add compact mock data and JavaScript for sorting, filtering, selected run, empty result state, and theme toggle.
-5. Add visual polish only after the document is structurally complete.
-
-If output budget feels tight, prefer a simpler but complete dashboard over an ambitious partial dashboard.
-
-## Ultra-Compact Completion Mode
-
-Use this mode when the runtime model is small, reasoning-heavy, or likely to stop early.
-
-- Target a complete document under about 250 lines.
-- Use 6-8 compact mock run records, not large datasets.
-- Keep CSS under about 110 lines. Prefer shared classes over many section-specific selectors.
-- Build one screen: header, KPI grid, anomaly strip, chart row, table, detail aside, and state shelf.
-- Use simple CSS bars or tiny inline SVG for charts.
-- Write the body and script before adding nonessential decoration.
-- Avoid emoji, long comments, verbose prose, and decorative extras until the full document is complete.
-- Include exact marker words in visible labels or concise comments: `mock`, `agent runs`, `badge`, `sortable`, `trend`, `anomaly`, `dark mode`, `loading`, `empty`, `error`, `partial`, `selected`, `stale`.
-
 ## Non-Negotiable Output Contract
 
 - Output only the HTML document, starting with `<!doctype html>` or `<html>`.
@@ -44,8 +17,6 @@ Use this mode when the runtime model is small, reasoning-heavy, or likely to sto
 - Include `<meta name="viewport" content="width=device-width, initial-scale=1">`.
 - Put all styles in one `<style>` tag and all behavior in one `<script>` tag.
 - Use semantic HTML regions: `header`, `main`, `section`, `aside`, and `table`.
-- The final output must include a complete `<body>`, one complete `<script>`, and closing `</script>`, `</body>`, and `</html>` tags.
-- Never stop inside CSS or JavaScript. Incomplete CSS rules, incomplete HTML, missing body content, or unclosed tags fail the task.
 - Include this hidden audit marker near the end of the document:
   `<!-- audit: agent runs mock card badge table sortable trend anomaly grid detail dark mode loading empty error partial selected stale @media -->`
 
@@ -75,8 +46,7 @@ Use realistic mock data that exposes both happy and failure paths:
 - selected run
 - at least one anomaly
 - different agents, models, durations, token counts, and timestamps
-- at least 6 run rows; prefer 8 rows if output budget is comfortable
-- Keep mock records compact. A good default is 6-8 run objects with fields: id, agent, status, score, model, started_at, duration, tokens, cost, severity, reason, and next_action.
+- at least 8 run rows so sorting, filtering, selected state, and failure patterns feel realistic
 
 ## Interaction Requirements
 
@@ -100,16 +70,12 @@ Use realistic mock data that exposes both happy and failure paths:
 - Do not make charts decorative only. A user should understand trend direction, metric meaning, and latest value within a few seconds.
 - Do not hide operational evidence. Failed and partial runs should expose trace evidence or root cause in the detail panel.
 - Prefer production dashboard density: enough rows, compact labels, and clear grouping. Avoid sparse toy examples.
-- Keep CSS compact enough for small-model completion. Use a focused design system instead of many long one-off selectors.
-- A complete but simpler dashboard beats a visually rich incomplete dashboard.
 
 ## Before Final Output Self-Check
 
 Before returning the HTML, verify these are true:
 
 - The document starts with `<!doctype html>` or `<html>` and is not wrapped in markdown fences.
-- The document closes `</style>`, `</script>`, `</body>`, and `</html>`.
-- The body exists and contains the actual dashboard UI.
 - The first viewport shows dashboard controls and operational data, not a marketing hero.
 - KPIs, anomalies, charts, table, and detail panel are all visible or reachable without backend calls.
 - Table sorting and filtering work from local mock data.
@@ -118,7 +84,6 @@ Before returning the HTML, verify these are true:
 - Detail panel includes trace evidence and next action for a failed or partial run.
 - Mobile `@media` rules prevent overflow.
 - The hidden audit marker is present near the end.
-- Required marker words are present exactly, not only implied by visuals.
 
 ## Evaluation-Oriented Reminders
 

@@ -41,5 +41,5 @@ def load_runtime_model_config(env: Mapping[str, str] | None = None) -> RuntimeMo
         temperature=float(source.get("SMALL_LLM_TEMPERATURE", "0.0")),
         max_tokens=int(source.get("SMALL_LLM_MAX_TOKENS", "4096")),
         timeout_seconds=int(source.get("SMALL_LLM_TIMEOUT_SECONDS", "120")),
+        reasoning_effort=source.get("SMALL_LLM_REASONING_EFFORT", "").strip() or None,
     )
-
